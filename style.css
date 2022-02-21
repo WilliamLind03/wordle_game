@@ -66,6 +66,11 @@ h1 {
 
 
 @media (max-width: 800px) {
+    #table td{
+        width: 50px;
+        height: 50px;
+        font-size: 40px;
+    }
     #keyboard {
         width: 100%;
     }

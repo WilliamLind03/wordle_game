@@ -76,6 +76,9 @@ h1 {
     #keyboard {
         max-width: 0px;
     }
+    #keyboard button {
+        font-size: 15px;
+    }
 }
     
     

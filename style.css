@@ -72,7 +72,7 @@ h1 {
 
 
 
-@media (max-width: 800) {
+@media (max-width: 800px) {
     #keyboard {
         max-width: 0px;
     }

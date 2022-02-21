@@ -85,6 +85,15 @@ h1 {
         font-size: 15px;
     }
 }
+@media (max-width: 600px) {
+    
+    #keyboard button {
+        font-size: 15px;
+    }
+    #keyboard #deleteBtn, #keyboard #enterBtn {
+        font-size: 8px;
+    }
+}
     
     
     

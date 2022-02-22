@@ -57,13 +57,14 @@ function enterWord() {
                     correctCharacters++;
                 }
             }
+            currentRow++;
         } else {
             console.log("Word is not in list");
         }
         
         
         
-        currentRow++;
+        
     } else {
         alert("word is too short");
     }

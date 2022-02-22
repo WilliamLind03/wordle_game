@@ -1,26 +1,31 @@
+html {
+    height: 100%;
+}
+
 body {
-    background-color: #151515;
+    background-color: #131313;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: fantasy;
-    
+    font-family: monospace;
+    height: 100%;
 }
 
 h1 {
-    font-size: 30px;
+    font-size: 35px;
     color: white;
     text-align: center;
-    letter-spacing: 2px;
-    padding: 10px 0px;
+    padding: 5px 0px;
     margin: 0px 0px 20px 0px;
     border-bottom: solid 1px #333;
 }
 main {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh;
+    height: 100%;
+    flex-grow:
 }
 
 #table {
@@ -32,8 +37,8 @@ main {
 }
 
 #table td {
-    width: 60px;
-    height: 60px;
+    width: 58px;
+    height: 58px;
     border: solid #333 2px;
     font-size: 40px;
     color: white;
@@ -53,13 +58,13 @@ main {
     margin: 4px 0px;
 }
 #keyboard button {
-    width: 70px;
+    width: 44px;
     height: 100%;
     margin: 0px 2px;
-    background-color: #444;
+    background-color: #555;
     border: none;
     border-radius: 5px;
-    font-size: 30px;
+    font-size: 20px;
     color: white;
 }
 #keyboard button:hover {
@@ -67,24 +72,16 @@ main {
 }
 #keyboard #deleteBtn, #keyboard #enterBtn {
     padding: 0px 10px;
-    width: 105px;
-    font-size: 20px;
+    width: 66px;
+    
+}
+#keyboard #enterBtn {
+    font-size: 50px;
+}
+#keyboard #deleteBtn {
+    font-size: 30px;
 }
 
-
-
-@media (max-width: 800px) {
-
-    #keyboard {
-        width: 100%;
-    }
-    #keyboard button {
-        font-size: 25px;
-    }
-    #keyboard #deleteBtn, #keyboard #enterBtn {
-        font-size: 15px;
-    }
-}
 
 @media (max-height: 700px) {
         #table td {
@@ -95,23 +92,23 @@ main {
     
 }
 
-@media (max-width: 600px) {
-    
-    #keyboard button {
-        font-size: 15px;
-    }
-    #keyboard #deleteBtn, #keyboard #enterBtn {
-        font-size: 8px;
-    }
-}
-
 @media (max-height: 580px) {
-        #table td {
+    #table td {
         width: 30px;
         height: 30px;
         font-size: 20px;
     }
-    
+}
+@media (max-width: 430px) {
+    #keyboard button {
+        font-size: 15px;
+    }
+    #keyboard #enterBtn {
+    font-size: 30px;
+    }
+    #keyboard #deleteBtn {
+        font-size: 15px;
+    }
 }
     
     

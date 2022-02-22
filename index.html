@@ -6,68 +6,70 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <header>
-            <h1>Wordle</h1>
-        </header>
         <main>
+            <header>
+                <h1>Wordle</h1>
+            </header>
+        
             <table id="table">
-                <tr id="first_row">
+                <tr>
                     <td></td><td></td><td></td><td></td><td></td>
                 </tr>
-                <tr id="first_row">
+                <tr>
                     <td></td><td></td><td></td><td></td><td></td>
                 </tr>
-                <tr id="first_row">
+                <tr>
                     <td></td><td></td><td></td><td></td><td></td>
                 </tr>
-                <tr id="first_row">
+                <tr>
                     <td></td><td></td><td></td><td></td><td></td>
                 </tr>
-                <tr id="first_row">
+                <tr>
                     <td></td><td></td><td></td><td></td><td></td>
                 </tr>
-                <tr id="first_row">
+                <tr>
                     <td></td><td></td><td></td><td></td><td></td>
                 </tr>
             </table>
-        </main>
         
-        <div id="keyboard">
-            <div class="keyboardRows" id="firstKeyboardRow">
-                <button id="Q" onclick="addCharacter('Q')">Q</button>
-                <button id="W" onclick="addCharacter('W')">W</button>
-                <button id="E" onclick="addCharacter('E')">E</button>
-                <button id="R" onclick="addCharacter('R')">R</button>
-                <button id="T" onclick="addCharacter('T')">T</button>
-                <button id="Y" onclick="addCharacter('Y')">Y</button>
-                <button id="U" onclick="addCharacter('U')">U</button>
-                <button id="I" onclick="addCharacter('I')">I</button>
-                <button id="O" onclick="addCharacter('O')">O</button>
-                <button id="P" onclick="addCharacter('P')">P</button>
+        
+            <div id="keyboard">
+                <div class="keyboardRows" id="firstKeyboardRow">
+                    <button id="Q" onclick="addCharacter('Q')">Q</button>
+                    <button id="W" onclick="addCharacter('W')">W</button>
+                    <button id="E" onclick="addCharacter('E')">E</button>
+                    <button id="R" onclick="addCharacter('R')">R</button>
+                    <button id="T" onclick="addCharacter('T')">T</button>
+                    <button id="Y" onclick="addCharacter('Y')">Y</button>
+                    <button id="U" onclick="addCharacter('U')">U</button>
+                    <button id="I" onclick="addCharacter('I')">I</button>
+                    <button id="O" onclick="addCharacter('O')">O</button>
+                    <button id="P" onclick="addCharacter('P')">P</button>
+                </div>
+                <div id='133' class="keyboardRows" id="secondKeyboardRow">
+                    <button id="A" onclick="addCharacter('A')">A</button>
+                    <button id="S" onclick="addCharacter('S')">S</button>
+                    <button id="D" onclick="addCharacter('D')">D</button>
+                    <button id="F" onclick="addCharacter('F')">F</button>
+                    <button id="G" onclick="addCharacter('G')">G</button>
+                    <button id="H" onclick="addCharacter('H')">H</button>
+                    <button id="J" onclick="addCharacter('J')">J</button>
+                    <button id="K" onclick="addCharacter('K')">K</button>
+                    <button id="L" onclick="addCharacter('L')">L</button>
+                </div>
+                <div id='143' class="keyboardRows" id="thirdKeyboardRow">
+                    <button id="enterBtn" onclick="enterWord()">ENTER</button>
+                    <button id="Z" onclick="addCharacter('Z')">Z</button>
+                    <button id="X" onclick="addCharacter('X')">X</button>
+                    <button id="C" onclick="addCharacter('C')">C</button>
+                    <button id="V" onclick="addCharacter('V')">V</button>
+                    <button id="B" onclick="addCharacter('B')">B</button>
+                    <button id="N" onclick="addCharacter('N')">N</button>
+                    <button id="M" onclick="addCharacter('M')">M</button>
+                    <button id="deleteBtn" onclick="deleteCharacter()">DELETE</button>
+                </div>
             </div>
-            <div id='133' class="keyboardRows" id="secondKeyboardRow">
-                <button id="A" onclick="addCharacter('A')">A</button>
-                <button id="S" onclick="addCharacter('S')">S</button>
-                <button id="D" onclick="addCharacter('D')">D</button>
-                <button id="F" onclick="addCharacter('F')">F</button>
-                <button id="G" onclick="addCharacter('G')">G</button>
-                <button id="H" onclick="addCharacter('H')">H</button>
-                <button id="J" onclick="addCharacter('J')">J</button>
-                <button id="K" onclick="addCharacter('K')">K</button>
-                <button id="L" onclick="addCharacter('L')">L</button>
-            </div>
-            <div id='143' class="keyboardRows" id="thirdKeyboardRow">
-                <button id="enterBtn" onclick="enterWord()">ENTER</button>
-                <button id="Z" onclick="addCharacter('Z')">Z</button>
-                <button id="X" onclick="addCharacter('X')">X</button>
-                <button id="C" onclick="addCharacter('C')">C</button>
-                <button id="V" onclick="addCharacter('V')">V</button>
-                <button id="B" onclick="addCharacter('B')">B</button>
-                <button id="N" onclick="addCharacter('N')">N</button>
-                <button id="M" onclick="addCharacter('M')">M</button>
-                <button id="deleteBtn" onclick="deleteCharacter()">DELETE</button>
-            </div>
-        </div>
+        </main>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="script.js"></script>
     </body>

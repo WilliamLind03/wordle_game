@@ -4,14 +4,23 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: fantasy;
+    
 }
 
 h1 {
-    font-size: 60px;
+    font-size: 30px;
     color: white;
     text-align: center;
-    letter-spacing: 1px;
-    margin: 10px 0px 30px 0px;
+    letter-spacing: 2px;
+    padding: 10px 0px;
+    margin: 0px 0px 20px 0px;
+    border-bottom: solid 1px #333;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
 }
 
 #table {
@@ -19,22 +28,21 @@ h1 {
     margin-right: auto; 
     border-spacing: 5px 5px;
     height: auto;
+    width: auto;
 }
 
 #table td {
     width: 60px;
     height: 60px;
     border: solid #333 2px;
-    font-size: 50px;
+    font-size: 40px;
     color: white;
     text-align: center;
-    padding: 0;
+    padding: 0px;
 }
 
 
 #keyboard {
-    position: fixed;
-    bottom: 0;
     width: 100%;
 }
 #keyboard .keyboardRows {
@@ -66,17 +74,9 @@ h1 {
 
 
 @media (max-width: 800px) {
-    #table td{
-        width: 50px;
-        height: 50px;
-        font-size: 40px;
-    }
+
     #keyboard {
         width: 100%;
-    }
-    #keyboard .keyboardRows {
-        margin-left: 5%;
-        width: 90%;
     }
     #keyboard button {
         font-size: 25px;
@@ -85,6 +85,16 @@ h1 {
         font-size: 15px;
     }
 }
+
+@media (max-height: 700px) {
+        #table td {
+        width: 40px;
+        height: 40px;
+        font-size: 25px;
+    }
+    
+}
+
 @media (max-width: 600px) {
     
     #keyboard button {
@@ -93,6 +103,15 @@ h1 {
     #keyboard #deleteBtn, #keyboard #enterBtn {
         font-size: 8px;
     }
+}
+
+@media (max-height: 580px) {
+        #table td {
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+    }
+    
 }
     
     

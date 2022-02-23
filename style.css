@@ -67,7 +67,7 @@ main {
     
 }
 .activate {
-    animation: popupAnim 2s ease;
+    animation: popupAnim 1s ease;
 }
 
 
@@ -147,10 +147,13 @@ main {
     }
 }
 @media (max-width: 360px) {
-        #table td {
+    #table td {
         width: 40px;
         height: 40px;
         font-size: 25px;
+    }
+    #popup {
+        font-size: 15px;
     }
     
 }

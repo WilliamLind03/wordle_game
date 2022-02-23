@@ -61,6 +61,7 @@ function switchLanguage() {
         btn3.onclick = "addCharacter('Ä')";
         document.getElementById("secondKeyboardRow").appendChild(btn3);
         */
+        Popup("Spelet är nu på svenska!");
         console.log("Spelet är nu på svenska!");
         
     } else if($("#langSwitch").val() == "sv"){
@@ -72,13 +73,12 @@ function switchLanguage() {
         wordlistToCheckFrom = possibleWords;
         correctWord = correctWordList[Math.floor(Math.random() * (correctWordList.length-1))];
         $("h1").html("Wordle");
-        console.log("The game is now in english!");
+        Popup("The game is now in english!");
     }
     
 }
 
 function addCharacter(character) {
-    console.log("haha")
     if (currentCharacter+1 <= wordLength*currentRow && currentCharacter < 30 && !correctGuess) {
         cell[currentCharacter].innerHTML = character;
         cell[currentCharacter].style.border = "solid #777 2px";
@@ -121,20 +121,14 @@ function enterWord() {
             }
             currentRow++;
         } else {
-            if (popupAnimationReady) {
-                popupAnimationReady = false;
-                var element = document.getElementById("popup");
-                element.classList.add("activate");
-                setTimeout(removeClass, 2000);
-                console.log("Word is not in list");
-            }
+            Popup("Word is not in list");
         }
         
         
         
         
     } else {
-        alert("word is too short");
+        Popup("Word is too short");
     }
     if (correctCharacters == 5) {
         correctGuess = true;
@@ -152,7 +146,15 @@ function enterWord() {
         }
     }
 }
-
+function Popup(popupStr) {
+    if (popupAnimationReady) {
+        popupAnimationReady = false;
+        var element = document.getElementById("popup");
+        element.innerHTML = popupStr;
+        element.classList.add("activate");
+        setTimeout(removeClass, 1000);
+    }
+}
 function removeClass() {
     var element = document.getElementById("popup");
     element.classList.remove("activate");

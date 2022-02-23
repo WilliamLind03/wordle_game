@@ -23,7 +23,6 @@ $(document).ready(function(){
 });
 
 function switchLanguage() {
-    console.log("changed language");
     // Reset game board
     $('td').css("backgroundColor", "");
     $('td').html("");
@@ -44,25 +43,8 @@ function switchLanguage() {
         wordlistToCheckFrom = svOrdlista;
         correctWord = svOrdlista[Math.floor(Math.random() * (svOrdlista.length-1))];
         $("h1").html("Wördel");
-        /*
-        let btn1 = document.createElement("button");
-        btn1.innerHTML = "Å";
-        btn1.id = "Å";
-        btn1.onclick = "addCharacter('Å')";
-        document.getElementById("firstKeyboardRow").appendChild(btn1);
-        let btn2 = document.createElement("button");
-        btn2.innerHTML = "Ö";
-        btn2.id = "Ö";
-        btn2.onclick = "addCharacter('Ö')";
-        document.getElementById("secondKeyboardRow").appendChild(btn2);
-        let btn3 = document.createElement("button");
-        btn3.innerHTML = "Ä";
-        btn3.id = "Ä";
-        btn3.onclick = "addCharacter('Ä')";
-        document.getElementById("secondKeyboardRow").appendChild(btn3);
-        */
         Popup("Spelet är nu på svenska!");
-        console.log("Spelet är nu på svenska!");
+        console.log(correctWord);
         
     } else if($("#langSwitch").val() == "sv"){
         $("#langSwitch").val("en");
@@ -75,6 +57,7 @@ function switchLanguage() {
         $("h1").html("Wordle");
         Popup("The game is now in english!");
     }
+    
     
 }
 

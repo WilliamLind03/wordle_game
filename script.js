@@ -18,7 +18,7 @@ var wordlistToCheckFrom = possibleWords;
 
 $(document).ready(function(){
     correctWord = correctWordList[Math.floor(Math.random() * (correctWordList.length-1))];
-    //console.log(correctWord);
+    console.log(correctWord);
     $("#langSwitch").click(switchLanguage);
 });
 
@@ -90,6 +90,7 @@ function deleteCharacter() {
     if (currentCharacter > wordLength*(currentRow -1)) {
         currentCharacter--;
         cell[currentCharacter].innerHTML = "";
+        cell[currentCharacter].style.border = "solid #333 2px";
     }
 }
 
@@ -100,9 +101,44 @@ function enterWord() {
         for (var u = 0; u < wordLength; u++) {
             guessedWord += cell[u + wordLength * (currentRow-1)].innerHTML.toLowerCase();
         }
-        console.log(guessedWord);
+        //console.log(guessedWord);
         if (wordlistToCheckFrom.includes(guessedWord)) {
+            var tempGuessed = guessedWord;
+            var tempCorrect = correctWord;
             
+            // White border and grey backgrounds
+            for (var i = 0; i < wordLength; i++) {
+                cell[i + wordLength * (currentRow-1)].style.backgroundColor = "#444";
+                cell[i + wordLength * (currentRow-1)].style.border = "solid #fff 2px";
+                document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "#333";
+            }
+            // Checks for yellow squares
+            for (var i = 0; i < wordLength; i++) {
+                if (tempGuessed.indexOf(tempCorrect[i]) >= 0) {
+                    // Change square background-color
+                    cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].style.backgroundColor = "orange";
+                    document.getElementById(cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "orange";
+                    tempGuessed = setCharAt(tempGuessed,tempGuessed.indexOf(tempCorrect[i]),'_');
+                    console.log(tempGuessed);
+                    // Change keyboard color
+                    document.getElementById(cell[guessedWord.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "orange";
+                }
+            }
+            // Checks for green squares
+            for (var i = 0; i < wordLength; i++) {
+                console.log(guessedWord[i]);
+                console.log(correctWord[i]);
+                
+                if(guessedWord[i] == correctWord[i]) {
+                    cell[i + wordLength * (currentRow-1)].style.backgroundColor = "green";
+                    console.log(guessedWord[i]);
+                    console.log(correctWord[i]);
+                    document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "green";
+                }
+                
+            }
+            
+            /*
             for (var i = 0; i < wordLength; i++) {
             
                 document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "#222";
@@ -119,6 +155,7 @@ function enterWord() {
                     correctCharacters++;
                 }
             }
+            */
             currentRow++;
         } else {
             Popup("Word is not in list");
@@ -159,4 +196,8 @@ function removeClass() {
     var element = document.getElementById("popup");
     element.classList.remove("activate");
     popupAnimationReady = true;
+}
+
+function setCharAt(str,index,chr) {
+    return str.substring(0,index) + chr + str.substring(index+1);
 }

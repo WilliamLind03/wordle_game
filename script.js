@@ -43,7 +43,7 @@ function switchLanguage() {
         wordlistToCheckFrom = svOrdlista;
         correctWord = svOrdlista[Math.floor(Math.random() * (svOrdlista.length-1))];
         $("h1").html("Wördel");
-        Popup("Spelet är nu på svenska!");
+        popup("Spelet är nu på svenska!");
         console.log(correctWord);
         
     } else if($("#langSwitch").val() == "sv"){
@@ -55,7 +55,7 @@ function switchLanguage() {
         wordlistToCheckFrom = possibleWords;
         correctWord = correctWordList[Math.floor(Math.random() * (correctWordList.length-1))];
         $("h1").html("Wordle");
-        Popup("The game is now in english!");
+        popup("The game is now in english!");
     }
     
     
@@ -91,8 +91,7 @@ function enterWord() {
             
             // White border and grey backgrounds
             for (var i = 0; i < wordLength; i++) {
-                cell[i + wordLength * (currentRow-1)].style.backgroundColor = "#444";
-                cell[i + wordLength * (currentRow-1)].style.border = "solid #fff 2px";
+                cell[i + wordLength * (currentRow-1)].style.border = "solid #333 2px";
                 document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "#333";
             }
             // Checks for yellow squares
@@ -100,11 +99,12 @@ function enterWord() {
                 if (tempGuessed.indexOf(tempCorrect[i]) >= 0) {
                     // Change square background-color
                     cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].style.backgroundColor = "orange";
+                    cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].style.border = "solid orange 2px";
                     document.getElementById(cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "orange";
                     tempGuessed = setCharAt(tempGuessed,tempGuessed.indexOf(tempCorrect[i]),'_');
                     console.log(tempGuessed);
                     // Change keyboard color
-                    document.getElementById(cell[guessedWord.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "orange";
+                    
                 }
             }
             // Checks for green squares
@@ -113,7 +113,9 @@ function enterWord() {
                 console.log(correctWord[i]);
                 
                 if(guessedWord[i] == correctWord[i]) {
+                    correctCharacters++;
                     cell[i + wordLength * (currentRow-1)].style.backgroundColor = "green";
+                    cell[i + wordLength * (currentRow-1)].style.border = "solid green 2px";
                     console.log(guessedWord[i]);
                     console.log(correctWord[i]);
                     document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "green";
@@ -121,52 +123,62 @@ function enterWord() {
                 
             }
             
-            /*
-            for (var i = 0; i < wordLength; i++) {
-            
-                document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "#222";
-                for (var j = 0; j < wordLength; j++) {
-                    if (cell[i + wordLength * (currentRow-1)].innerHTML.toLowerCase() == correctWord.charAt(j)) {
-                        document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "orange";
-                        cell[i + wordLength * (currentRow-1)].style.backgroundColor = "orange";
-                    }
-                }
-                cell[i + wordLength * (currentRow-1)].style.border = " 2px solid #fff";
-                if (cell[i + wordLength * (currentRow-1)].innerHTML.toLowerCase() == correctWord.charAt(i)) {
-                    document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "green";
-                    cell[i + wordLength * (currentRow-1)].style.backgroundColor = "green";
-                    correctCharacters++;
-                }
-            }
-            */
             currentRow++;
+            
         } else {
-            Popup("Word is not in list");
+            popup("Word is not in list");
         }
         
-        
-        
-        
-    } else {
-        Popup("Word is too short");
+    } 
+    
+    else {
+        popup("Word is too short");
     }
+    
+    
     if (correctCharacters == 5) {
         correctGuess = true;
         if ($("#langSwitch").val() == "en"){
-            $("h1").html("Good job!");
+            if(currentRow == 7) {
+                popup("Close one!");
+            } else if(currentRow == 6) {
+                popup("Well done!");
+            } else if(currentRow == 5) {
+                popup("Good job!");
+            } else if(currentRow == 4) {
+                popup("Awesome!");
+            } else if(currentRow == 3) {
+                popup("Insane!");
+            } else if(currentRow == 2) {
+                popup("Impossible!");
+            }
         } else {
-            $("h1").html("Snyggt!");
+            if(currentRow == 7) {
+                popup("Nära ögat!");
+            } else if(currentRow == 6) {
+                popup("Bra gissat!");
+            } else if(currentRow == 5) {
+                popup("Bra jobbat!");
+            } else if(currentRow == 4) {
+                popup("Snyggt!");
+            } else if(currentRow == 3) {
+                popup("Enastående!");
+            } else if(currentRow == 2) {
+                popup("Omöjligt!");
+            }
         }
     }
     if  (correctCharacters != 5 && currentRow == 7) {
         if ($("#langSwitch").val() == "en"){
-            $("h1").html("Word was " + correctWord);
+            $("h1").html(correctWord);
+            popup(correctWord);
         } else {
-            $("h1").html("Ordet var " + correctWord);
+            $("h1").html(correctWord);
+            popup(correctWord);
         }
     }
 }
-function Popup(popupStr) {
+function popup(popupStr) {
     if (popupAnimationReady) {
         popupAnimationReady = false;
         var element = document.getElementById("popup");

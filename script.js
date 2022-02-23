@@ -19,9 +19,6 @@ $(document).ready(function(){
     correctWord = correctWordList[Math.floor(Math.random() * (correctWordList.length-1))];
     //console.log(correctWord);
     $("#langSwitch").click(switchLanguage);
-    document.getElementById("Å").style.display = "none";
-    document.getElementById("Ä").style.display = "none";
-    document.getElementById("Ö").style.display = "none";
 });
 
 function switchLanguage() {

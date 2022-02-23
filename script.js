@@ -83,6 +83,7 @@ function addCharacter(character) {
     console.log("haha")
     if (currentCharacter+1 <= wordLength*currentRow && currentCharacter < 30 && !correctGuess) {
         cell[currentCharacter].innerHTML = character;
+        cell[currentCharacter].style.border = "solid #777 2px";
         currentCharacter++;
     }
 }

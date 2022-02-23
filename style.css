@@ -53,6 +53,31 @@ main {
     padding: 0px;
 }
 
+#popup {
+    opacity: 0;
+    font-size: 20px;
+    color: white;
+    padding: 20px;
+    background-color: black;
+    position: absolute;
+    border-radius: 10px;
+    top: 35%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    
+}
+.activate {
+    animation: popupAnim 2s ease;
+}
+
+
+@keyframes popupAnim{
+    0%{opacity: 0;}
+    20%{opacity: 1;}
+    80%{opacity: 1;}
+    100%{opacity: 0;}
+}
+
 
 #keyboard {
     width: 100%;

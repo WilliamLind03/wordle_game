@@ -13,6 +13,7 @@ var wordLength = 5;
 var guessedWord = "";
 var correctGuess = false;
 var lang = "en";
+var popupAnimationReady = true;
 var wordlistToCheckFrom = possibleWords;
 
 $(document).ready(function(){
@@ -120,7 +121,13 @@ function enterWord() {
             }
             currentRow++;
         } else {
-            console.log("Word is not in list");
+            if (popupAnimationReady) {
+                popupAnimationReady = false;
+                var element = document.getElementById("popup");
+                element.classList.add("activate");
+                setTimeout(removeClass, 2000);
+                console.log("Word is not in list");
+            }
         }
         
         
@@ -144,4 +151,10 @@ function enterWord() {
             $("h1").html("Ordet var " + correctWord);
         }
     }
+}
+
+function removeClass() {
+    var element = document.getElementById("popup");
+    element.classList.remove("activate");
+    popupAnimationReady = true;
 }

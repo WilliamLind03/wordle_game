@@ -92,7 +92,7 @@ function enterWord() {
             // White border and grey backgrounds
             for (var i = 0; i < wordLength; i++) {
                 cell[i + wordLength * (currentRow-1)].style.border = "solid #333 2px";
-                document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "#333";
+                cell[i + wordLength * (currentRow-1)].style.backgroundColor = "#333";
             }
             // Checks for yellow squares
             for (var i = 0; i < wordLength; i++) {

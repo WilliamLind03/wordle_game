@@ -19,6 +19,13 @@ h1 {
     margin: 0px 0px 20px 0px;
     border-bottom: solid 1px #333;
 }
+#langSwitch {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: auto;
+    padding: 5px;
+}
 main {
     position: relative;
     display: flex;

@@ -4,6 +4,7 @@ var currentRow = 1;
 var currentCharacter = 0;
 var cell = document.getElementById('table').getElementsByTagName('td');
 var correctWord = "";
+var svCorrectWord = "";
 var wordLength = 5;
 var guessedWord = "";
 var correctGuess = false;
@@ -20,11 +21,10 @@ var newStamp = newDate.getTime();
 var timer;
 
 $(document).ready(function(){
-    correctWord = correctWordList[Math.floor(Math.random() * (correctWordList.length-1))];
-    console.log(correctWord);
     $("#langSwitch").click(switchLanguage);
     $("#time").click(openTimeDisplay);
     $("#closeTime").click(closeTimeDisplay);
+    updateClock();
     timer = setInterval(updateClock, 1000);
 });
 
@@ -74,6 +74,8 @@ function updateClock() {
     console.log(diff);
     if ($("#langSwitch").val() == "en"){
         correctWord = correctWordList[Math.floor(diff/86400)];
+    } else if ($("#langSwitch").val() == "sv") {
+        correctWord = svOrdlista[Math.floor(diff/86400)];
     }
 }
 
@@ -97,7 +99,7 @@ function switchLanguage() {
         document.getElementById("Ä").style.display = "block";
         document.getElementById("Ö").style.display = "block";
         wordlistToCheckFrom = svOrdlista;
-        correctWord = svOrdlista[Math.floor(Math.random() * (svOrdlista.length-1))];
+        correctWord = svOrdlista[Math.floor(diff/86400)];
         $("h1").html("Wördle");
         popup("Spelet är nu på svenska!");
         console.log(correctWord);

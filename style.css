@@ -25,9 +25,9 @@ h1 {
     text-align: center;
 }
 #langSwitch {
-    height: 40px;
-    width: 40px;
-    margin: 5px 20px;
+    height: 30px;
+    width: 30px;
+    margin: 10px 20px;
     background: none;
     border: none;
     background-image: url(img/swedish.png);
@@ -89,9 +89,9 @@ main {
     100%{opacity: 0;}
 }
 #time {
-    height: 40px;
-    width: 40px;
-    margin: 5px 20px;
+    height: 30px;
+    width: 30px;
+    margin: 10px 20px;
     background: none;
     border: none;
     background-image: url(img/time.png);

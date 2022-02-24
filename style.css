@@ -10,21 +10,29 @@ body {
     font-family: monospace;
     height: 100%;
 }
-
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50px;
+        border-bottom: solid 1px #333;
+}
 h1 {
+    padding-top: 5px;
     font-size: 35px;
     color: white;
+    margin: 0;
     text-align: center;
-    padding: 5px 0px;
-    margin: 0px 0px 20px 0px;
-    border-bottom: solid 1px #333;
 }
 #langSwitch {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    width: auto;
-    padding: 5px;
+    height: 40px;
+    width: 40px;
+    margin: 5px;
+    background: none;
+    border: none;
+    background-image: url(img/swedish.png);
+    background-size: cover;
+    
 }
 main {
     position: relative;

@@ -4,7 +4,6 @@ var currentRow = 1;
 var currentCharacter = 0;
 var cell = document.getElementById('table').getElementsByTagName('td');
 var correctWord = "";
-var svCorrectWord = "";
 var wordLength = 5;
 var guessedWord = "";
 var correctGuess = false;
@@ -102,7 +101,6 @@ function switchLanguage() {
         correctWord = svOrdlista[Math.floor(diff/86400)];
         $("h1").html("Wördle");
         popup("Spelet är nu på svenska!");
-        console.log(correctWord);
         
     } else if($("#langSwitch").val() == "sv"){
         $("#langSwitch").val("en");
@@ -111,7 +109,6 @@ function switchLanguage() {
         document.getElementById("Ä").style.display = "none";
         document.getElementById("Ö").style.display = "none";
         wordlistToCheckFrom = possibleWords;
-        //correctWord = correctWordList[Math.floor(Math.random() * (correctWordList.length-1))];
         correctWord = correctWordList[Math.floor(diff/86400)];
         $("h1").html("Wordle");
         popup("The game is now in english!");

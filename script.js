@@ -11,6 +11,7 @@ var lang = "en";
 var popupAnimationReady = true;
 var wordlistToCheckFrom = possibleWords;
 var diff;
+var timeDisplayed = false;
 
 var startDateTime = new Date(2022,1,23,23,59,59,0);
 var startStamp = startDateTime.getTime();
@@ -22,25 +23,54 @@ $(document).ready(function(){
     correctWord = correctWordList[Math.floor(Math.random() * (correctWordList.length-1))];
     console.log(correctWord);
     $("#langSwitch").click(switchLanguage);
+    $("#time").click(openTimeDisplay);
+    $("#closeTime").click(closeTimeDisplay);
     timer = setInterval(updateClock, 1000);
 });
+
+function openTimeDisplay() {
+    if (timeDisplayed == false) {
+        $("#timeDisplay").css("display", "block");
+        timeDisplayed = true;
+    } else {
+        $("#timeDisplay").css("display", "none");
+        timeDisplayed = false;
+    }
+}
+function closeTimeDisplay() {
+    console.log("stäng");
+    if (timeDisplayed == true) {
+        $("#timeDisplay").css("display", "none");
+        timeDisplayed = false;
+    }
+}
 
 function updateClock() {
     newDate = new Date();
     newStamp = newDate.getTime();
     diff = Math.round((newStamp-startStamp)/1000);
+    var timeLeft = 86400 - diff;
     
-    /*
-    var d = Math.floor(diff/(24*60*60));
-    diff = diff-(d*24*60*60);
-    var h = Math.floor(diff/(60*60));
-    diff = diff-(h*60*60);
-    var m = Math.floor(diff/(60));
-    diff = diff-(m*60);
-    var s = diff;
-    */
+    var d = Math.floor(timeLeft/(24*60*60));
+    timeLeft = timeLeft-(d*24*60*60);
+    var h = Math.floor(timeLeft/(60*60));
+    timeLeft = timeLeft-(h*60*60);
+    var m = Math.floor(timeLeft/(60));
+    timeLeft = timeLeft-(m*60);
+    var s = timeLeft;
+    if (h < 10) {
+        h = "0" + h;
+    }
+    if (m < 10) {
+        m = "0" + m;
+    }
+    if (s < 10) {
+        s = "0" + s;
+    } else
+    
     
     //document.getElementById("time-elapsed").innerHTML = d+" day(s), "+h+" hour(s), "+m+" minute(s), "+s+" second(s) working";
+    $("#timeDisplayText").html(h + ":" + m + ":" + s);
     console.log(diff);
     if ($("#langSwitch").val() == "en"){
         correctWord = correctWordList[Math.floor(diff/86400)];

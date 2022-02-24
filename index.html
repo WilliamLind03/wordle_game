@@ -8,7 +8,7 @@
     <body>
         <main>
             <header>
-                <button id="time" value="en">TIME</button>
+                <button id="time"></button>
                 <h1>Wordle</h1>
                 <button id="langSwitch" value="en"></button>
             </header>
@@ -35,6 +35,11 @@
             </table>
         
             <p id="popup"></p>
+            <div id="timeDisplay">
+                <button id="closeTime">X</button>
+                <p>New word in</p>
+                <p id="timeDisplayText">00:00:00</p>
+            </div>
         
             <div id="keyboard">
                 <div class="keyboardRows" id="firstKeyboardRow">

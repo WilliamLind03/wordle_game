@@ -27,12 +27,15 @@ h1 {
 #langSwitch {
     height: 40px;
     width: 40px;
-    margin: 5px;
+    margin: 5px 20px;
     background: none;
     border: none;
     background-image: url(img/swedish.png);
     background-size: cover;
     
+}
+#langSwitch:hover, #time:hover {
+    filter: brightness(0.8);
 }
 main {
     position: relative;
@@ -84,6 +87,42 @@ main {
     20%{opacity: 1;}
     80%{opacity: 1;}
     100%{opacity: 0;}
+}
+#time {
+    height: 40px;
+    width: 40px;
+    margin: 5px 20px;
+    background: none;
+    border: none;
+    background-image: url(img/time.png);
+    background-size: cover;
+}
+
+#timeDisplay {
+    display: none;
+    font-size: 20px;
+    color: white;
+    padding: 20px;
+    background-color: black;
+    position: absolute;
+    border-radius: 10px;
+    top: 35%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+#timeDisplay p {
+    text-align: center;
+}
+#timeDisplay button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    color: white;
+    background: none;
+    border: none;
+    font-size: 20px;
 }
 
 

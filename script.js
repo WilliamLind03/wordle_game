@@ -23,6 +23,7 @@ $(document).ready(function(){
     $("#langSwitch").click(switchLanguage);
     $("#time").click(openTimeDisplay);
     $("#closeTime").click(closeTimeDisplay);
+    $("#share").click(share);
     updateClock();
     timer = setInterval(updateClock, 1000);
 });
@@ -70,12 +71,40 @@ function updateClock() {
     
     //document.getElementById("time-elapsed").innerHTML = d+" day(s), "+h+" hour(s), "+m+" minute(s), "+s+" second(s) working";
     $("#timeDisplayText").html(h + ":" + m + ":" + s);
-    console.log(diff);
     if ($("#langSwitch").val() == "en"){
         correctWord = correctWordList[Math.floor(diff/86400)];
     } else if ($("#langSwitch").val() == "sv") {
         correctWord = svOrdlista[Math.floor(diff/86400)];
     }
+}
+
+function share() {
+    var shareContent = "Wordle " + Math.floor(diff/86400) + " " + (currentRow-1) + "/6 \n";
+    var gs = "🟩"; // Green square emoji
+    var os = "🟧"; // Orange square emoji
+    var bs = "⬛"; // Black square emoji
+    for (var i = 0; i < currentRow-1; i++) {
+        for (var j = 0; j < wordLength; j++) {
+            var square = cell[j + wordLength * i].style.backgroundColor;
+            if (square == "green") {
+                shareContent += gs;
+            } else if (square == "orange") {
+                shareContent += os;
+            } else {
+                shareContent += bs;
+            }
+        }
+        shareContent += " \n"
+    }
+    console.log(shareContent);
+    
+    var shareElement = document.createElement("textarea");
+    document.body.appendChild(shareElement);
+    shareElement.value = shareContent;
+    shareElement.select();
+    document.execCommand("copy");
+    document.body.removeChild(shareElement);
+    
 }
 
 
@@ -93,7 +122,7 @@ function switchLanguage() {
     
     if ($("#langSwitch").val() == "en") {
         $("#langSwitch").val("sv");
-        $("#langSwitch").css("backgroundImage", "url(img/english.png)");
+        $("#langSwitch").css("backgroundImage", "url(img/swedish.png)");
         document.getElementById("Å").style.display = "block";
         document.getElementById("Ä").style.display = "block";
         document.getElementById("Ö").style.display = "block";
@@ -104,7 +133,7 @@ function switchLanguage() {
         
     } else if($("#langSwitch").val() == "sv"){
         $("#langSwitch").val("en");
-        $("#langSwitch").css("backgroundImage", "url(img/swedish.png)");
+        $("#langSwitch").css("backgroundImage", "url(img/english.png)");
         document.getElementById("Å").style.display = "none";
         document.getElementById("Ä").style.display = "none";
         document.getElementById("Ö").style.display = "none";

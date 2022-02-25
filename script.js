@@ -85,7 +85,7 @@ function share() {
     } else {
         whichWordle = "Wördle";
     }
-    var shareContent = "Williams " +  Wordle + " " + Math.floor(diff/86400) + " " + (currentRow-1) + "/6 \n";
+    var shareContent = "Williams " +  whichWordle + " " + Math.floor(diff/86400) + " " + (currentRow-1) + "/6 \n";
     var gs = "🟩"; // Green square emoji
     var os = "🟧"; // Orange square emoji
     var bs = "⬛"; // Black square emoji

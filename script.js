@@ -79,7 +79,13 @@ function updateClock() {
 }
 
 function share() {
-    var shareContent = "Wordle " + Math.floor(diff/86400) + " " + (currentRow-1) + "/6 \n";
+    var whichWordle;
+    if ($("#langSwitch").val() == "en"){
+        whichWordle = "Wordle";
+    } else {
+        whichWordle = "Wördle";
+    }
+    var shareContent = "Williams " +  Wordle + " " + Math.floor(diff/86400) + " " + (currentRow-1) + "/6 \n";
     var gs = "🟩"; // Green square emoji
     var os = "🟧"; // Orange square emoji
     var bs = "⬛"; // Black square emoji

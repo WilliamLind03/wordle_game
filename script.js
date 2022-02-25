@@ -97,14 +97,18 @@ function share() {
         shareContent += " \n"
     }
     console.log(shareContent);
-    
-    var shareElement = document.createElement("textarea");
-    document.body.appendChild(shareElement);
-    shareElement.value = shareContent;
-    shareElement.select();
-    document.execCommand("copy");
-    document.body.removeChild(shareElement);
-    
+    text = shareContent;
+    if (navigator.share) {
+        navigator.share(text);
+    } else {
+        var shareElement = document.createElement("textarea");
+        document.body.appendChild(shareElement);
+        shareElement.value = shareContent;
+        shareElement.select();
+        document.execCommand("copy");
+        document.body.removeChild(shareElement);
+        popup("Copied results to clipboard");
+    }
 }
 
 
@@ -253,6 +257,7 @@ function enterWord() {
                 popup("Omöjligt!");
             }
         }
+        setTimeout(openTimeDisplay, 1000);
     }
     if  (correctCharacters != 5 && currentRow == 7) {
         if ($("#langSwitch").val() == "en"){

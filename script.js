@@ -100,7 +100,7 @@ function share() {
     var text = shareContent;
     if (navigator.share) {
         console.log("share");
-        navigator.share({title: shareContent});
+        navigator.share({text: text});
     } else {
         console.log("copy");
         var shareElement = document.createElement("textarea");

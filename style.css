@@ -143,9 +143,8 @@ main {
 #keyboard .keyboardRows {
     display: flex;
     justify-content: center;
-    width: 100%;
     height: 60px;
-    margin: 8px 0px;
+    margin: 8px 4px;
 }
 #keyboard button {
     width: 40px;
@@ -209,6 +208,7 @@ main {
         width: 40px;
         height: 40px;
         font-size: 25px;
+        margin: 0px 2px;
     }
     #popup {
         font-size: 15px;

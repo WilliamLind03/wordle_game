@@ -125,6 +125,7 @@ main {
     font-size: 20px;
 }
 #timeDisplay #share {
+    display: none;
     float: right;
     padding: 5px;
     font-size: 15px;

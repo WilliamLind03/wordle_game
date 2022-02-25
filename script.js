@@ -257,16 +257,13 @@ function enterWord() {
                 popup("Omöjligt!");
             }
         }
+        $("#share").css("display", "block");
         setTimeout(openTimeDisplay, 1000);
     }
     if  (correctCharacters != 5 && currentRow == 7) {
-        if ($("#langSwitch").val() == "en"){
-            $("h1").html(correctWord);
-            popup(correctWord);
-        } else {
-            $("h1").html(correctWord);
-            popup(correctWord);
-        }
+        $("#share").css("display", "block");
+        $("h1").html(correctWord);
+        popup(correctWord);
     }
 }
 function popup(popupStr) {

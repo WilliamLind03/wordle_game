@@ -30,6 +30,8 @@ $(document).ready(function(){
     $("#copy").click(copy);
     $("#colors1").change(setCorrectColor);
     $("#colors2").change(setAlmostCorrectColor);
+    $(document).keydown(keyDownHandler);
+    $(document).keyup(keyUpHandler);
     updateClock();
     timer = setInterval(updateClock, 1000);
     if (localStorage.getItem("correctColor")) {
@@ -388,4 +390,107 @@ function removeClass() {
 
 function setCharAt(str,index,chr) {
     return str.substring(0,index) + chr + str.substring(index+1);
+}
+
+function keyDownHandler(event){
+    if (event.keyCode == Q){
+        addCharacter("Q");
+        console.log("Q");
+    }
+    if (event.keyCode == W){
+        addCharacter("W");
+    }
+    if (event.keyCode == E){
+        addCharacter("E");
+    }
+    if (event.keyCode == R){
+        addCharacter("R");
+    }
+    if (event.keyCode == T){
+        addCharacter("T");
+    }
+    if (event.keyCode == Y){
+        addCharacter("Y");
+    }
+    if (event.keyCode == U){
+        addCharacter("U");
+    }
+    if (event.keyCode == I){
+        addCharacter("I");
+    }
+    if (event.keyCode == O){
+        addCharacter("O");
+    }
+    if (event.keyCode == P){
+        addCharacter("P");
+    }
+    if (event.keyCode == Å){
+        addCharacter("Å");
+    }
+    if (event.keyCode == A){
+        addCharacter("A");
+    }
+    if (event.keyCode == S){
+        addCharacter("S");
+    }
+    if (event.keyCode == D){
+        addCharacter("D");
+    }
+    if (event.keyCode == F){
+        addCharacter("F");
+    }
+    if (event.keyCode == G){
+        addCharacter("G");
+    }
+    if (event.keyCode == H){
+        addCharacter("H");
+    }
+    if (event.keyCode == J){
+        addCharacter("J");
+    }
+    if (event.keyCode == K){
+        addCharacter("K");
+    }
+    if (event.keyCode == L){
+        addCharacter("L");
+    }
+    if (event.keyCode == Ö){
+        addCharacter("Ö");
+    }
+    if (event.keyCode == Ä){
+        addCharacter("Ä");
+    }
+    if (event.keyCode == Z){
+        addCharacter("Z");
+    }
+    if (event.keyCode == X){
+        addCharacter("X");
+    }
+    if (event.keyCode == C){
+        addCharacter("C");
+    }
+    if (event.keyCode == V){
+        addCharacter("V");
+    }
+    if (event.keyCode == B){
+        addCharacter("B");
+    }
+    if (event.keyCode == N){
+        addCharacter("N");
+    }
+    if (event.keyCode == M){
+        addCharacter("M");
+    }
+    
+    if (event.keyCode == BACKSPACE){
+        deleteCharacter();
+    }
+    
+    if (event.keyCode == ENTER){
+        console.log("enter");
+        enterWord();
+    }
+}
+
+function keyUpHandler(event){
 }

@@ -15,7 +15,7 @@ header {
     flex-direction: row;
     justify-content: space-between;
     height: 50px;
-        border-bottom: solid 1px #333;
+    border-bottom: solid 1px #333;
 }
 h1 {
     padding-top: 5px;
@@ -275,6 +275,9 @@ main {
     
 }
 @media (max-width: 300px) {
+    h1 {
+        font-size: 30px;
+    }
     #keyboard button {
         font-size: 8px;
     }
@@ -292,6 +295,9 @@ main {
     
 }
 @media (max-width: 250px) {
+    h1 {
+        font-size: 25px;
+    }
     #table td {
         width: 20px;
         height: 20px;

@@ -95,7 +95,8 @@ main {
 
 
 #info {
-    
+    width: 70%;
+    max-width: 400px;
     display: none;
     font-size: 20px;
     color: white;
@@ -231,6 +232,10 @@ main {
 }
 
 @media (max-width: 430px) {
+    #info {
+        width: 80%;
+        max-width: 
+    }
     #keyboard button {
         font-size: 15px;
 

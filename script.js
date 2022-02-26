@@ -359,7 +359,10 @@ function enterWord() {
         }
         $("#share").css("display", "block");
         $("#copy").css("display", "block");
-        setTimeout(openInfo, 1000);
+        setTimeout(function(){
+            $("#info").css("display", "block");
+            infoOpen = true;
+        }, 1000);
     }
     if  (correctCharacters != 5 && currentRow == 7) {
         $("#share").css("display", "block");

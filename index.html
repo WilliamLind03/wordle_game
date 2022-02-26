@@ -8,7 +8,7 @@
     <body>
         <main>
             <header>
-                <button id="time"></button>
+                <button id="openInfo"></button>
                 <h1>Wordle</h1>
                 <button id="langSwitch" value="en"></button>
             </header>
@@ -35,11 +35,40 @@
             </table>
         
             <p id="popup"></p>
-            <div id="timeDisplay">
-                <button id="closeTime">X</button>
-                <p>Next word in</p>
-                <p id="timeDisplayText">00:00:00</p>
+            <div id="info">
+                <button id="closeInfo">X</button>
+                <p id="selectColorP">Select colors</p>
+                <div class="colorSelectorContainer">
+                    <select name="first" id="colors1" value="green">
+                        <option value="" disabled selected>Correct</option>
+                        <option value="red">Red</option>
+                        <option value="orange">Orange</option>
+                        <option value="green">Green</option>
+                        <option value="lightblue">Lightblue</option>
+                        <option value="blue">Blue</option>
+                        <option value="purple">Purple</option>
+                        <option value="pink">Pink</option>
+                    </select>
+                    <select name="second" id="colors2">
+                        <option value="" disabled selected>Almost</option>
+                        <option value="red">Red</option>
+                        <option value="orange">Orange</option>
+                        <option value="green">Green</option>
+                        <option value="lightblue">Lightblue</option>
+                        <option value="blue">Blue</option>
+                        <option value="purple">Purple</option>
+                        <option value="pink">Pink</option>
+                    </select>
+                </div>
+                
+                <br/>
+                <div id="time">
+                    <p>Next word in</p>
+                    <p id="timeDisplayText">00:00:00</p>
+                </div>
                 <button id="share">Share</button>
+                <button id="copy">Copy</button>
+                
             </div>
         
             <div id="keyboard">

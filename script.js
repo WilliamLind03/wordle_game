@@ -11,38 +11,66 @@ var lang = "en";
 var popupAnimationReady = true;
 var wordlistToCheckFrom = possibleWords;
 var diff;
-var timeDisplayed = false;
+var infoOpen = false;
 
 var startDateTime = new Date(2022,1,23,23,59,59,0);
 var startStamp = startDateTime.getTime();
 var newDate = new Date();
 var newStamp = newDate.getTime();
 var timer;
+var correctColor = "green";
+var almostCorrectColor = "orange";
 
 $(document).ready(function(){
+    //localStorage.clear();
     $("#langSwitch").click(switchLanguage);
-    $("#time").click(openTimeDisplay);
-    $("#closeTime").click(closeTimeDisplay);
+    $("#openInfo").click(openInfo);
+    $("#closeInfo").click(closeInfo);
     $("#share").click(share);
+    $("#copy").click(copy);
+    $("#colors1").change(setCorrectColor);
+    $("#colors2").change(setAlmostCorrectColor);
     updateClock();
     timer = setInterval(updateClock, 1000);
+    if (localStorage.getItem("correctColor")) {
+        correctColor = localStorage.getItem("correctColor");
+    }
+    if (localStorage.getItem("almostCorrectColor")) {
+        almostCorrectColor = localStorage.getItem("almostCorrectColor");
+    }
+    console.log(localStorage);
 });
 
-function openTimeDisplay() {
-    if (timeDisplayed == false) {
-        $("#timeDisplay").css("display", "block");
-        timeDisplayed = true;
+function setCorrectColor() {
+    correctColor = document.getElementById("colors1").value;
+    localStorage.setItem("correctColor", correctColor);
+    console.log(correctColor);
+    $(".correct").css("backgroundColor", correctColor);
+    $(".correct").css("border", correctColor);
+}
+function setAlmostCorrectColor() {
+    almostCorrectColor = document.getElementById("colors2").value;
+    localStorage.setItem("almostCorrectColor", almostCorrectColor);
+    console.log(almostCorrectColor);
+    $(".almostCorrect").css("backgroundColor", almostCorrectColor);
+    $(".almostCorrect").css("border", almostCorrectColor);
+}
+
+function openInfo() {
+    if (infoOpen == false) {
+        $("#info").css("display", "block");
+        infoOpen = true;
     } else {
-        $("#timeDisplay").css("display", "none");
-        timeDisplayed = false;
+        $("#info").css("display", "none");
+        infoOpen = false;
     }
 }
-function closeTimeDisplay() {
+function closeInfo() {
     console.log("stäng");
-    if (timeDisplayed == true) {
-        $("#timeDisplay").css("display", "none");
-        timeDisplayed = false;
-    }
+    if (infoOpen == true) {
+        $("#info").css("display", "none");
+        infoOpen = false;
+    }   
 }
 
 function updateClock() {
@@ -76,9 +104,79 @@ function updateClock() {
     } else if ($("#langSwitch").val() == "sv") {
         correctWord = svOrdlista[Math.floor(diff/86400)];
     }
+    if (diff % 86400 == 0) {
+        clearBoard();
+    }
+}
+
+function clearBoard() {
+    for (var i = 0; i < 30; i++) {
+
+        cell[i].classList.remove("correct");
+        cell[i].classList.remove("almostCorrect");
+        cell[i].style.background = "none";
+        cell[i].style.border = "solid #333 2px";
+        cell[i].innerHTML = "";
+        console.log(cell[i].classList);
+        // Reset game board
+        $('td').css("backgroundColor", "");
+        $('td').html("");
+        $('td').css("border", "solid #333 2px");
+        // Reset keyboard
+        $('#keyboard button').css("backgroundColor", "#555");
+        // Reset values
+        currentRow = 1;
+        currentCharacter = 0;
+        correctGuess = false;
+        
+    }
 }
 
 function share() {
+    // Closes the info window when sharing
+    if (infoOpen == true) {
+        $("#info").css("display", "none");
+        infoOpen = false;
+    }
+    var shareContent = getResultString();
+    // Shares string
+    var text = shareContent;
+    if (navigator.share) {
+        console.log("share");
+        navigator.share({text: text});
+    } else { // Copies string if it cant share
+        console.log("copy");
+        var shareElement = document.createElement("textarea");
+        document.body.appendChild(shareElement);
+        shareElement.value = shareContent;
+        shareElement.select();
+        document.execCommand("copy");
+        document.body.removeChild(shareElement);
+        popup("Copied results to clipboard");
+    }
+}
+
+function copy() {
+    // Closes the info window when copying
+    if (infoOpen == true) {
+        $("#info").css("display", "none");
+        infoOpen = false;
+    }
+    
+    // Creates the string for copying
+    var shareContent = getResultString();
+    // Copies string
+    var shareElement = document.createElement("textarea");
+    document.body.appendChild(shareElement);
+    shareElement.value = shareContent;
+    shareElement.select();
+    document.execCommand("copy");
+    document.body.removeChild(shareElement);
+    popup("Copied results to clipboard");
+}
+
+function getResultString() {
+    // Check the language
     var whichWordle;
     if ($("#langSwitch").val() == "en"){
         whichWordle = "Wordle";
@@ -91,10 +189,10 @@ function share() {
     var bs = "⬛"; // Black square emoji
     for (var i = 0; i < currentRow-1; i++) {
         for (var j = 0; j < wordLength; j++) {
-            var square = cell[j + wordLength * i].style.backgroundColor;
-            if (square == "green") {
+            var square = cell[j + wordLength * i];
+            if (square.classList.contains("correct")) {
                 shareContent += gs;
-            } else if (square == "orange") {
+            } else if (square.classList.contains("almostCorrect")) {
                 shareContent += os;
             } else {
                 shareContent += bs;
@@ -102,21 +200,7 @@ function share() {
         }
         shareContent += " \n"
     }
-    console.log(shareContent);
-    var text = shareContent;
-    if (navigator.share) {
-        console.log("share");
-        navigator.share({text: text});
-    } else {
-        console.log("copy");
-        var shareElement = document.createElement("textarea");
-        document.body.appendChild(shareElement);
-        shareElement.value = shareContent;
-        shareElement.select();
-        document.execCommand("copy");
-        document.body.removeChild(shareElement);
-        popup("Copied results to clipboard");
-    }
+    return shareContent;
 }
 
 
@@ -159,7 +243,8 @@ function switchLanguage() {
 }
 
 function addCharacter(character) {
-    if (currentCharacter+1 <= wordLength*currentRow && currentCharacter < 30 && !correctGuess) {
+    if (currentCharacter < wordLength*currentRow && currentCharacter < 30 && !correctGuess) {
+        console.log("added character!");
         cell[currentCharacter].innerHTML = character;
         cell[currentCharacter].style.border = "solid #777 2px";
         currentCharacter++;
@@ -196,13 +281,15 @@ function enterWord() {
             for (var i = 0; i < wordLength; i++) {
                 if (tempGuessed.indexOf(tempCorrect[i]) >= 0) {
                     // Change square background-color
-                    cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].style.backgroundColor = "orange";
-                    cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].style.border = "solid orange 2px";
-                    document.getElementById(cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "orange";
+                    //cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].style.backgroundColor = almostCorrectColor;
+                    cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].classList.add("almostCorrect");
+                    document.getElementById(cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].innerHTML).classList.add("almostCorrect")
                     tempGuessed = setCharAt(tempGuessed,tempGuessed.indexOf(tempCorrect[i]),'_');
                     console.log(tempGuessed);
                     // Change keyboard color
                     
+                    $(".almostCorrect").css("backgroundColor", almostCorrectColor);
+                    $(".almostCorrect").css("border", almostCorrectColor);
                 }
             }
             // Checks for green squares
@@ -212,12 +299,18 @@ function enterWord() {
                 
                 if(guessedWord[i] == correctWord[i]) {
                     correctCharacters++;
-                    cell[i + wordLength * (currentRow-1)].style.backgroundColor = "green";
-                    cell[i + wordLength * (currentRow-1)].style.border = "solid green 2px";
+                    cell[i + wordLength * (currentRow-1)].classList.add("correct");
+                    cell[i + wordLength * (currentRow-1)].classList.remove("almostCorrect");
                     console.log(guessedWord[i]);
                     console.log(correctWord[i]);
-                    document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "green";
+
+                    document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.add("correct");
+                    document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.remove("almostCorrect");
                 }
+                $(".correct").css("backgroundColor", correctColor);
+                $(".correct").css("border", correctColor);
+                
+                
                 
             }
             
@@ -232,7 +325,6 @@ function enterWord() {
     else {
         popup("Word is too short");
     }
-    
     
     if (correctCharacters == 5) {
         correctGuess = true;
@@ -266,10 +358,12 @@ function enterWord() {
             }
         }
         $("#share").css("display", "block");
-        setTimeout(openTimeDisplay, 1000);
+        $("#copy").css("display", "block");
+        setTimeout(openInfo, 1000);
     }
     if  (correctCharacters != 5 && currentRow == 7) {
         $("#share").css("display", "block");
+        $("#copy").css("display", "block");
         $("h1").html(correctWord);
         popup(correctWord);
     }

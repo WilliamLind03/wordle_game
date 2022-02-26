@@ -192,7 +192,7 @@ main {
     margin: 0px 4px;
     background-color: #555;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 20px;
     color: white;
 }
@@ -224,13 +224,6 @@ main {
     
 }
 
-@media (max-height: 580px) {
-    #table td {
-        width: 30px;
-        height: 30px;
-        font-size: 20px;
-    }
-}
 @media (max-width: 430px) {
     #keyboard button {
         font-size: 15px;
@@ -244,6 +237,12 @@ main {
     }
 }
 @media (max-width: 360px) {
+    #keyboard button {
+        margin: 0px 2px;
+    }
+    #keyboard .keyboardRows {
+        margin: 4px 2px;
+    }
     #table td {
         width: 40px;
         height: 40px;
@@ -255,7 +254,7 @@ main {
     }
     
 }
-@media (max-width: 270px) {
+@media (max-width: 300px) {
     #keyboard button {
         font-size: 8px;
     }
@@ -265,11 +264,32 @@ main {
     #keyboard #deleteBtn {
         font-size: 8px;
     }
-      #table td {
+    #table td {
         width: 30px;
         height: 30px;
         font-size: 25px;
     }
+    
+}
+@media (max-width: 250px) {
+    #table td {
+        width: 20px;
+        height: 20px;
+        font-size: 15px;
+        margin: 0px 2px;
+    }
+    #keyboard button {
+        margin: 0px 1px;
+    }
+    #keyboard .keyboardRows {
+        margin: 2px 1px;
+    }
+    #keyboard #enterBtn {
+        font-size: 15px;
+    }
+    #keyboard #deleteBtn, #keyboard #enterBtn {
+    padding: 0px 5px;
+}
     
 }
     

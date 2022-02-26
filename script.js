@@ -20,6 +20,7 @@ var newStamp = newDate.getTime();
 var timer;
 var correctColor = "green";
 var almostCorrectColor = "orange";
+var revealInterval;
 
 $(document).ready(function(){
     //localStorage.clear();
@@ -41,7 +42,21 @@ $(document).ready(function(){
         almostCorrectColor = localStorage.getItem("almostCorrectColor");
     }
     console.log(localStorage);
+    
+    if (localStorage.getItem("language")) {
+        $("#langSwitch").val(localStorage.getItem("language"));
+        setLanguage();
+    }
+    revealInterval = setInterval(reveal, 100);
 });
+var bla = 0;
+function reveal() {
+    cell[bla].classList.add("revealAnim");
+    bla++;
+    if (bla >= 30) {
+        clearInterval(revealInterval)
+    }
+}
 
 function setCorrectColor() {
     correctColor = document.getElementById("colors1").value;
@@ -50,6 +65,7 @@ function setCorrectColor() {
     $(".correct").css("backgroundColor", correctColor);
     $(".correct").css("border", correctColor);
 }
+
 function setAlmostCorrectColor() {
     almostCorrectColor = document.getElementById("colors2").value;
     localStorage.setItem("almostCorrectColor", almostCorrectColor);
@@ -67,6 +83,7 @@ function openInfo() {
         infoOpen = false;
     }
 }
+
 function closeInfo() {
     console.log("stäng");
     if (infoOpen == true) {
@@ -176,6 +193,27 @@ function copy() {
     document.body.removeChild(shareElement);
     popup("Copied results to clipboard");
 }
+function reset() {
+    // Reset game board
+    $('td').css("backgroundColor", "");
+    $('td').html("");
+    $('td').css("border", "solid #333 2px");
+    // Reset keyboard
+    $('#keyboard button').css("backgroundColor", "#555");
+    // Reset values
+    currentRow = 1;
+    currentCharacter = 0;
+    correctGuess = false;
+    for (var i = 0; i < 30; i++) {
+        cell[i].classList.remove("correct");
+        cell[i].classList.remove("almostCorrect");
+    }
+    var key = document.getElementById("keyboard").getElementsByTagName("button");
+    for (var i = 0; i < 29; i++) {
+        key[i].classList.remove("correct");
+        key[i].classList.remove("almostCorrect");
+    }
+}
 
 function getResultString() {
     // Check the language
@@ -205,18 +243,30 @@ function getResultString() {
     return shareContent;
 }
 
+function setLanguage() {
+    
+    if ($("#langSwitch").val() == "en") {
+        $("#langSwitch").css("backgroundImage", "url(img/english.png)");
+        document.getElementById("Å").style.display = "none";
+        document.getElementById("Ä").style.display = "none";
+        document.getElementById("Ö").style.display = "none";
+        wordlistToCheckFrom = possibleWords;
+        correctWord = correctWordList[Math.floor(diff/86400)];
+        $("h1").html("Wordle");
+    } else if($("#langSwitch").val() == "sv") {
+        $("#langSwitch").css("backgroundImage", "url(img/swedish.png)");
+        document.getElementById("Å").style.display = "block";
+        document.getElementById("Ä").style.display = "block";
+        document.getElementById("Ö").style.display = "block";
+        wordlistToCheckFrom = svOrdlista;
+        correctWord = svOrdlista[Math.floor(diff/86400)];
+        $("h1").html("Wördle");
+    }
+    
+}
 
 function switchLanguage() {
-    // Reset game board
-    $('td').css("backgroundColor", "");
-    $('td').html("");
-    $('td').css("border", "solid #333 2px");
-    // Reset keyboard
-    $('#keyboard button').css("backgroundColor", "#555");
-    // Reset values
-    currentRow = 1;
-    currentCharacter = 0;
-    correctGuess = false;
+    reset();
     
     if ($("#langSwitch").val() == "en") {
         $("#langSwitch").val("sv");
@@ -240,7 +290,7 @@ function switchLanguage() {
         $("h1").html("Wordle");
         popup("The game is now in english!");
     }
-    
+    localStorage.setItem("language", $("#langSwitch").val())
     
 }
 
@@ -373,6 +423,7 @@ function enterWord() {
         popup(correctWord);
     }
 }
+
 function popup(popupStr) {
     if (popupAnimationReady) {
         popupAnimationReady = false;
@@ -382,6 +433,7 @@ function popup(popupStr) {
         setTimeout(removeClass, 1000);
     }
 }
+
 function removeClass() {
     var element = document.getElementById("popup");
     element.classList.remove("activate");

@@ -50,7 +50,10 @@ $(document).ready(function(){
     if (localStorage.getItem("correctGuessSv" && $("#langSwitch").val() == "sv")) {
         correctGuess = localStorage.getItem("correctGuessSv");
     }
-    console.log(correctGuess);
+    if (correctGuess) {
+        $("#share").css("display", "block");
+        $("#copy").css("display", "block");
+    }
     
     if (localStorage.getItem("correctColor")) {
         correctColor = localStorage.getItem("correctColor");
@@ -427,6 +430,13 @@ function switchLanguage() {
             correctGuess = localStorage.getItem("correctGuessSv");
         } else {
             correctGuess = false;
+        }
+        if (correctGuess) {
+            $("#share").css("display", "block");
+            $("#copy").css("display", "block");
+        } else {
+            $("#share").css("display", "none");
+            $("#copy").css("display", "none");
         }
         console.log("korrekt gissning " + correctGuess);
         localStorage.setItem("language", $("#langSwitch").val())

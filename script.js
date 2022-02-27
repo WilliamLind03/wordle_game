@@ -45,7 +45,7 @@ $(document).ready(function(){
     timer = setInterval(updateClock, 1000);
     
     // Refreshes first time user opens website
-    if (localStorage.getItem("day") && localStorage.getItem("day") < Math.floor(diff/86400)){
+    if (!localStorage.getItem("day") || localStorage.getItem("day") < Math.floor(diff/86400)){
         localStorage.clear();
     }
     localStorage.setItem("day", Math.floor(diff/86400));

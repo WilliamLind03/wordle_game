@@ -28,6 +28,7 @@ var correctCharacters = 0;
 var guessCompared = [];
 var svBoardData = [];
 var enBoardData = [];
+var thisCharacter;
 
 $(document).ready(function(){
     //localStorage.clear();
@@ -42,6 +43,15 @@ $(document).ready(function(){
     updateClock();
     timer = setInterval(updateClock, 1000);
     
+    if (localStorage.getItem("correctGuessEn") && $("#langSwitch").val() == "en") {
+        correctGuess = localStorage.getItem("correctGuessEn");
+        
+    }
+    if (localStorage.getItem("correctGuessSv" && $("#langSwitch").val() == "sv")) {
+        correctGuess = localStorage.getItem("correctGuessSv");
+    }
+    console.log(correctGuess);
+    
     if (localStorage.getItem("correctColor")) {
         correctColor = localStorage.getItem("correctColor");
     }
@@ -52,7 +62,7 @@ $(document).ready(function(){
         $("#langSwitch").val(localStorage.getItem("language"));
         setLanguage();
     }
-    /*
+    
     if (localStorage.getItem("enCurrentRow") && $("#langSwitch").val() == "en") {
         currentRow = localStorage.getItem("enCurrentRow");
         currentCharacter = wordLength * (currentRow-1);
@@ -60,8 +70,34 @@ $(document).ready(function(){
         currentRow = localStorage.getItem("svCurrentRow");
         currentCharacter = wordLength * (currentRow-1);
     }
-    */
     
+    for (var i = 0; i < 30; i++) {
+        if ($("#langSwitch").val() == "en") {
+            if(localStorage.getItem("cellInfoEn" + i)) {
+                console.log(localStorage.getItem("cellInfoEn" + i));
+                cell[i].classList.add(localStorage.getItem("cellInfoEn" + i));
+            }
+            if(localStorage.getItem("cellCharEn" + i)) {
+                cell[i].innerHTML = localStorage.getItem("cellCharEn" + i);
+            }
+        }
+        if ($("#langSwitch").val() == "sv") {
+            if(localStorage.getItem("cellInfoSv" + i)) {
+                console.log(localStorage.getItem("cellInfoSv" + i));
+                cell[i].classList.add(localStorage.getItem("cellInfoSv" + i));
+            }
+            if(localStorage.getItem("cellCharSv" + i)) {
+                cell[i].innerHTML = localStorage.getItem("cellCharSv" + i);
+            }
+        }
+        
+    }
+    $(".correct").css("backgroundColor", correctColor);
+    $(".correct").css("border", "solid " + correctColor + " 2px");
+    $(".almostCorrect").css("backgroundColor", almostCorrectColor);
+    $(".almostCorrect").css("border", "solid " + almostCorrectColor + " 2px");
+    $(".wrong").css("backgroundColor", "#333");
+    $(".wrong").css("border", "solid #333 2px");
     console.log(localStorage);
     revealInterval = setInterval(reveal, 30);
 });
@@ -90,7 +126,7 @@ function setCorrectColor() {
     localStorage.setItem("correctColor", correctColor);
     console.log(correctColor);
     $(".correct").css("backgroundColor", correctColor);
-    $(".correct").css("border", correctColor);
+    $(".correct").css("border", "solid " + correctColor + " 2px");
 }
 
 function setAlmostCorrectColor() {
@@ -98,7 +134,7 @@ function setAlmostCorrectColor() {
     localStorage.setItem("almostCorrectColor", almostCorrectColor);
     console.log(almostCorrectColor);
     $(".almostCorrect").css("backgroundColor", almostCorrectColor);
-    $(".almostCorrect").css("border", almostCorrectColor);
+    $(".almostCorrect").css("border", "solid " + almostCorrectColor + " 2px");
 }
 
 function openInfo() {
@@ -152,6 +188,7 @@ function updateClock() {
     }
     if (diff % 86400 == 0) {
         clearBoard();
+        localStorage.clear();
     }
 }
 
@@ -231,7 +268,6 @@ function reset() {
     // Reset values
     currentRow = 1;
     currentCharacter = 0;
-    correctGuess = false;
     cellIndex = 0;
     enterReady = true;
     for (var i = 0; i < 30; i++) {
@@ -282,6 +318,10 @@ function getResultString() {
 function setLanguage() {
     
     if ($("#langSwitch").val() == "en") {
+        if (localStorage.getItem("enCurrentRow") && $("#langSwitch").val() == "en") {
+            currentRow = localStorage.getItem("enCurrentRow");
+            currentCharacter = wordLength * (currentRow-1);
+        }
         $("#langSwitch").css("backgroundImage", "url(img/english.png)");
         document.getElementById("Å").style.display = "none";
         document.getElementById("Ä").style.display = "none";
@@ -290,6 +330,10 @@ function setLanguage() {
         correctWord = correctWordList[Math.floor(diff/86400)];
         $("h1").html("Wordle");
     } else if($("#langSwitch").val() == "sv") {
+        if (localStorage.getItem("svCurrentRow") && $("#langSwitch").val() == "sv") {
+            currentRow = localStorage.getItem("svCurrentRow");
+            currentCharacter = wordLength * (currentRow-1);
+        }
         $("#langSwitch").css("backgroundImage", "url(img/swedish.png)");
         document.getElementById("Å").style.display = "block";
         document.getElementById("Ä").style.display = "block";
@@ -304,8 +348,14 @@ function setLanguage() {
 function switchLanguage() {
     if (enterReady) {
         reset();
+        
+        
 
         if ($("#langSwitch").val() == "en") {
+            if (localStorage.getItem("svCurrentRow")) {
+                currentRow = localStorage.getItem("svCurrentRow");
+                currentCharacter = wordLength * (currentRow-1);
+            }
             $("#langSwitch").val("sv");
             $("#langSwitch").css("backgroundImage", "url(img/swedish.png)");
             document.getElementById("Å").style.display = "block";
@@ -317,6 +367,10 @@ function switchLanguage() {
             popup("Spelet är nu på svenska!");
 
         } else if($("#langSwitch").val() == "sv"){
+            if (localStorage.getItem("enCurrentRow")) {
+                currentRow = localStorage.getItem("enCurrentRow");
+                currentCharacter = wordLength * (currentRow-1);
+            }
             $("#langSwitch").val("en");
             $("#langSwitch").css("backgroundImage", "url(img/english.png)");
             document.getElementById("Å").style.display = "none";
@@ -327,6 +381,54 @@ function switchLanguage() {
             $("h1").html("Wordle");
             popup("The game is now in english!");
         }
+        
+        for (var i = 0; i < 30; i++) {
+            if (cell[i].classList.contains("correct")) {
+                cell[i].classList.remove("correct");
+            }
+            else if (cell[i].classList.contains("almostCorrect")) {
+                cell[i].classList.remove("almostCorrect");
+            }
+            else if (cell[i].classList.contains("wrong")) {
+                cell[i].classList.remove("wrong");
+            }
+            
+            if ($("#langSwitch").val() == "en") {
+                if(localStorage.getItem("cellInfoEn" + i)) {
+                    console.log(localStorage.getItem("cellInfoEn" + i));
+                    cell[i].classList.add(localStorage.getItem("cellInfoEn" + i));
+                }
+                if(localStorage.getItem("cellCharEn" + i)) {
+                    cell[i].innerHTML = localStorage.getItem("cellCharEn" + i);
+                }
+            }
+            if ($("#langSwitch").val() == "sv") {
+                if(localStorage.getItem("cellInfoSv" + i)) {
+                    console.log(localStorage.getItem("cellInfoSv" + i));
+                    cell[i].classList.add(localStorage.getItem("cellInfoSv" + i));
+                }
+                if(localStorage.getItem("cellCharSv" + i)) {
+                    cell[i].innerHTML = localStorage.getItem("cellCharSv" + i);
+                }
+            }
+        }
+        $(".correct").css("background", correctColor);
+        $(".correct").css("border", "solid " + correctColor + " 2px");
+        $(".almostCorrect").css("background", almostCorrectColor);
+        $(".almostCorrect").css("border", "solid " + almostCorrectColor + " 2px");
+        $(".wrong").css("background", "#333");
+        $(".wrong").css("border", "solid #333 2px");
+        
+        if (localStorage.getItem("correctGuessEn") && $("#langSwitch").val() == "en") {
+            correctGuess = localStorage.getItem("correctGuessEn");
+            
+        }
+        else if (localStorage.getItem("correctGuessSv") && $("#langSwitch").val() == "sv") {
+            correctGuess = localStorage.getItem("correctGuessSv");
+        } else {
+            correctGuess = false;
+        }
+        console.log("korrekt gissning " + correctGuess);
         localStorage.setItem("language", $("#langSwitch").val())
     }
 }
@@ -372,7 +474,6 @@ function goThroughWord(i) {
         document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.add("almostCorrect")
         $(".almostCorrect").css("backgroundColor", almostCorrectColor);
         $(".almostCorrect").css("border", "solid " + almostCorrectColor + " 2px");
-        
     } 
     // Checks if Character is wrong
     else if (guessCompared[i] == "wrong") {
@@ -392,6 +493,34 @@ function goThroughWord(i) {
                 localStorage.setItem("svCurrentRow", currentRow)
             }
             clearInterval(revealWordInterval);
+            for (var i = 0; i < 30; i++) {
+                if ($("#langSwitch").val() == "en") {
+                    if (cell[i].classList.contains("correct")){
+                        localStorage.setItem("cellInfoEn" + i, "correct");
+                    }
+                    else if (cell[i].classList.contains("almostCorrect")){
+                        localStorage.setItem("cellInfoEn" + i, "almostCorrect");
+                    }
+                    else if (cell[i].classList.contains("wrong")) {
+                        localStorage.setItem("cellInfoEn" + i, "wrong");
+                    }
+                    localStorage.setItem("cellCharEn" + i, cell[i].innerHTML);
+                }
+                if ($("#langSwitch").val() == "sv") {
+                    if (cell[i].classList.contains("correct")){
+                        localStorage.setItem("cellInfoSv" + i, "correct");
+                    }
+                    else if (cell[i].classList.contains("almostCorrect")){
+                        localStorage.setItem("cellInfoSv" + i, "almostCorrect");
+                    }
+                    else if (cell[i].classList.contains("wrong")) {
+                        localStorage.setItem("cellInfoSv" + i, "wrong");
+                    }
+                    localStorage.setItem("cellCharSv" + i, cell[i].innerHTML);
+                }
+                
+                
+            }
             enterReady = true;
             checkResult(correctCharacters);
             console.log(correctCharacters + " korrekta");
@@ -403,7 +532,9 @@ function goThroughWord(i) {
         }, 400);
         
     }
+    
 }
+
 
 function revealAnimationDelay(i){
     
@@ -461,6 +592,13 @@ function compareWords() {
 function checkResult(correctCharacters) {
     if (correctCharacters == 5) {
         correctGuess = true;
+        if ($("#langSwitch").val() == "en") {
+            localStorage.setItem("correctGuessEn", correctGuess)
+        } else if ($("#langSwitch").val() == "sv") {
+            console.log("Gissade rätt på svenska!");
+            localStorage.setItem("correctGuessSv", correctGuess)
+        }
+        
         if ($("#langSwitch").val() == "en"){
             if(currentRow == 7) {
                 popup("Close one!");

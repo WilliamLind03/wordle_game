@@ -29,9 +29,9 @@ var guessCompared = [];
 var svBoardData = [];
 var enBoardData = [];
 var thisCharacter;
+var firstTime;
 
 $(document).ready(function(){
-    //localStorage.clear();
     $("#langSwitch").click(switchLanguage);
     $("#openInfo").click(openInfo);
     $("#closeInfo").click(closeInfo);
@@ -43,9 +43,14 @@ $(document).ready(function(){
     updateClock();
     timer = setInterval(updateClock, 1000);
     
+    // Refreshes first time user opens website
+    if (localStorage.getItem("day") && localStorage.getItem("day") < Math.floor(diff/86400)){
+        localStorage.clear();
+    }
+    localStorage.setItem("day", Math.floor(diff/86400));
+    
     if (localStorage.getItem("correctGuessEn") && $("#langSwitch").val() == "en") {
         correctGuess = localStorage.getItem("correctGuessEn");
-        
     }
     if (localStorage.getItem("correctGuessSv" && $("#langSwitch").val() == "sv")) {
         correctGuess = localStorage.getItem("correctGuessSv");

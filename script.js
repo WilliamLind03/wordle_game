@@ -12,7 +12,7 @@ var popupAnimationReady = true;
 var wordlistToCheckFrom = possibleWords;
 var diff;
 var infoOpen = false;
-var enterReady = true;
+var enterReady = false;
 
 var startDateTime = new Date(2022,1,23,23,59,59,0);
 var startStamp = startDateTime.getTime();
@@ -25,6 +25,9 @@ var revealInterval;
 var revealWordInterval;
 var cellIndex = 0;
 var correctCharacters = 0;
+var guessCompared = [];
+var svBoardData = [];
+var enBoardData = [];
 
 $(document).ready(function(){
     //localStorage.clear();
@@ -38,18 +41,28 @@ $(document).ready(function(){
     $(document).keydown(keyDownHandler);
     updateClock();
     timer = setInterval(updateClock, 1000);
+    
     if (localStorage.getItem("correctColor")) {
         correctColor = localStorage.getItem("correctColor");
     }
     if (localStorage.getItem("almostCorrectColor")) {
         almostCorrectColor = localStorage.getItem("almostCorrectColor");
     }
-    console.log(localStorage);
-    
     if (localStorage.getItem("language")) {
         $("#langSwitch").val(localStorage.getItem("language"));
         setLanguage();
     }
+    /*
+    if (localStorage.getItem("enCurrentRow") && $("#langSwitch").val() == "en") {
+        currentRow = localStorage.getItem("enCurrentRow");
+        currentCharacter = wordLength * (currentRow-1);
+    } else if (localStorage.getItem("svCurrentRow") && $("#langSwitch").val() == "sv") {
+        currentRow = localStorage.getItem("svCurrentRow");
+        currentCharacter = wordLength * (currentRow-1);
+    }
+    */
+    
+    console.log(localStorage);
     revealInterval = setInterval(reveal, 30);
 });
 var bla = 0;
@@ -64,6 +77,7 @@ function reveal() {
                 cell[i].classList.remove("revealAnim");
                 console.log(cell[i].classList);
             } 
+            enterReady = true;
         }, 1000);
         
     }
@@ -223,11 +237,14 @@ function reset() {
     for (var i = 0; i < 30; i++) {
         cell[i].classList.remove("correct");
         cell[i].classList.remove("almostCorrect");
+        cell[i].classList.remove("wrong");
     }
     var key = document.getElementById("keyboard").getElementsByTagName("button");
     for (var i = 0; i < 31; i++) {
         key[i].classList.remove("correct");
         key[i].classList.remove("almostCorrect");
+        key[i].classList.remove("wrong");
+        key[i].style.border = "none";
     }
     console.log(currentRow);
     console.log(currentCharacter);
@@ -240,7 +257,7 @@ function getResultString() {
     if ($("#langSwitch").val() == "en"){
         whichWordle = "Wordle";
     } else {
-        whichWordle = "Wördle";
+        whichWordle = "Wördel";
     }
     var shareContent = "Williams " +  whichWordle + " " + Math.floor(diff/86400) + " " + (currentRow-1) + "/6 \n";
     var gs = "🟩"; // Green square emoji
@@ -279,38 +296,39 @@ function setLanguage() {
         document.getElementById("Ö").style.display = "block";
         wordlistToCheckFrom = svOrdlista;
         correctWord = svOrdlista[Math.floor(diff/86400)];
-        $("h1").html("Wördle");
+        $("h1").html("Wördel");
     }
     
 }
 
 function switchLanguage() {
-    reset();
-    
-    if ($("#langSwitch").val() == "en") {
-        $("#langSwitch").val("sv");
-        $("#langSwitch").css("backgroundImage", "url(img/swedish.png)");
-        document.getElementById("Å").style.display = "block";
-        document.getElementById("Ä").style.display = "block";
-        document.getElementById("Ö").style.display = "block";
-        wordlistToCheckFrom = svOrdlista;
-        correctWord = svOrdlista[Math.floor(diff/86400)];
-        $("h1").html("Wördle");
-        popup("Spelet är nu på svenska!");
-        
-    } else if($("#langSwitch").val() == "sv"){
-        $("#langSwitch").val("en");
-        $("#langSwitch").css("backgroundImage", "url(img/english.png)");
-        document.getElementById("Å").style.display = "none";
-        document.getElementById("Ä").style.display = "none";
-        document.getElementById("Ö").style.display = "none";
-        wordlistToCheckFrom = possibleWords;
-        correctWord = correctWordList[Math.floor(diff/86400)];
-        $("h1").html("Wordle");
-        popup("The game is now in english!");
+    if (enterReady) {
+        reset();
+
+        if ($("#langSwitch").val() == "en") {
+            $("#langSwitch").val("sv");
+            $("#langSwitch").css("backgroundImage", "url(img/swedish.png)");
+            document.getElementById("Å").style.display = "block";
+            document.getElementById("Ä").style.display = "block";
+            document.getElementById("Ö").style.display = "block";
+            wordlistToCheckFrom = svOrdlista;
+            correctWord = svOrdlista[Math.floor(diff/86400)];
+            $("h1").html("Wördel");
+            popup("Spelet är nu på svenska!");
+
+        } else if($("#langSwitch").val() == "sv"){
+            $("#langSwitch").val("en");
+            $("#langSwitch").css("backgroundImage", "url(img/english.png)");
+            document.getElementById("Å").style.display = "none";
+            document.getElementById("Ä").style.display = "none";
+            document.getElementById("Ö").style.display = "none";
+            wordlistToCheckFrom = possibleWords;
+            correctWord = correctWordList[Math.floor(diff/86400)];
+            $("h1").html("Wordle");
+            popup("The game is now in english!");
+        }
+        localStorage.setItem("language", $("#langSwitch").val())
     }
-    localStorage.setItem("language", $("#langSwitch").val())
-    
 }
 
 function addCharacter(character) {
@@ -338,47 +356,41 @@ function convertToLowerCase(word) {
 
 
 function goThroughWord(i) {
-    var tempGuessed = guessedWord;
-    var tempCorrect = correctWord;
-    console.log(i + " i");
-    // White border and grey backgrounds
-    //for (var i = 0; i < wordLength; i++) {
-    cell[i + wordLength * (currentRow-1)].style.border = "solid #333 2px";
-    cell[i + wordLength * (currentRow-1)].style.backgroundColor = "#333";
-    console.log(cell[i + wordLength * (currentRow-1)].innerHTML + " current index");
-    document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).style.backgroundColor = "#222";
-    //}
-    // Checks for green and orange squares
-    //for (var i = 0; i < wordLength; i++) {
-    console.log(guessedWord[i]);
-    console.log(correctWord[i]);
-
-    if(guessedWord[i] == correctWord[i]) {
+    
+    // Checks if Character is correct
+    if(guessCompared[i] == "correct") {
         correctCharacters++;
         cell[i + wordLength * (currentRow-1)].classList.add("correct");
-        cell[i + wordLength * (currentRow-1)].classList.remove("almostCorrect");
-        console.log(guessedWord[i]);
-        console.log(correctWord[i]);
-
         document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.add("correct");
-        document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.remove("almostCorrect");
-    } else if (tempGuessed.indexOf(tempCorrect[i]) >= 0) {
-        cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].classList.add("almostCorrect");
-        document.getElementById(cell[tempGuessed.indexOf(tempCorrect[i]) + wordLength * (currentRow-1)].innerHTML).classList.add("almostCorrect")
-        tempGuessed = setCharAt(tempGuessed,tempGuessed.indexOf(tempCorrect[i]),'_');
-        console.log(tempGuessed);
-        // Change keyboard color
-
+        $(".correct").css("backgroundColor", correctColor);
+        $(".correct").css("border", "solid " + correctColor + " 2px");
+        
+    } 
+    // Checks if Character is almost correct
+    else if (guessCompared[i] == "almostCorrect") {
+        cell[i + wordLength * (currentRow-1)].classList.add("almostCorrect");
+        document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.add("almostCorrect")
         $(".almostCorrect").css("backgroundColor", almostCorrectColor);
-        $(".almostCorrect").css("border", almostCorrectColor);
+        $(".almostCorrect").css("border", "solid " + almostCorrectColor + " 2px");
+        
+    } 
+    // Checks if Character is wrong
+    else if (guessCompared[i] == "wrong") {
+        cell[i + wordLength * (currentRow-1)].classList.add("wrong");
+        document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.add("wrong")
+        $(".wrong").css("backgroundColor", "#333");
+        $(".wrong").css("border", "solid #333 2px");
     }
-    $(".correct").css("backgroundColor", correctColor);
-    $(".correct").css("border", correctColor);
-    //}
-    console.log("Character " + i);
+    
     if (i >= 4) {
         setTimeout(function () {
             currentRow++;
+            if ($("#langSwitch").val() == "en") {
+                localStorage.setItem("enCurrentRow", currentRow)
+            } else {
+                
+                localStorage.setItem("svCurrentRow", currentRow)
+            }
             clearInterval(revealWordInterval);
             enterReady = true;
             checkResult(correctCharacters);
@@ -413,6 +425,7 @@ function enterWord() {
         //console.log(guessedWord);
         cellIndex = 0;
         if (wordlistToCheckFrom.includes(guessedWord)) {
+            compareWords();
             enterReady = false;
             revealAnimationDelay(cellIndex)
             revealWordInterval = setInterval(function () {
@@ -428,6 +441,23 @@ function enterWord() {
     }
     
 }
+function compareWords() {
+    guessCompared = ["wrong", "wrong", "wrong", "wrong", "wrong"];
+
+    for (var i = 0; i < 5; i++) {
+        if(guessedWord[i] == correctWord[i]) {
+            guessCompared[i] = "correct";
+        } 
+        else if (guessedWord.indexOf(correctWord[i]) >= 0) {
+            guessCompared[guessedWord.indexOf(correctWord[i])] = "almostCorrect";
+        } else {
+            guessCompared[i] = "wrong";
+        }
+    }
+    console.log(guessCompared);
+}
+
+
 function checkResult(correctCharacters) {
     if (correctCharacters == 5) {
         correctGuess = true;

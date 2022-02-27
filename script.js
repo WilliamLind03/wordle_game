@@ -32,6 +32,7 @@ var thisCharacter;
 var firstTime;
 
 $(document).ready(function(){
+    localStorage.clear();
     $("#langSwitch").click(switchLanguage);
     $("#openInfo").click(openInfo);
     $("#closeInfo").click(closeInfo);

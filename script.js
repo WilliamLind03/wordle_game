@@ -407,12 +407,13 @@ function revealAnimationDelay(i){
 function enterWord() {
     if (currentCharacter == wordLength * currentRow && enterReady) {
         correctCharacters = 0;
-        enterReady = false;
+        
         guessedWord = "";
         guessedWord = convertToLowerCase(guessedWord);
         //console.log(guessedWord);
         cellIndex = 0;
         if (wordlistToCheckFrom.includes(guessedWord)) {
+            enterReady = false;
             revealAnimationDelay(cellIndex)
             revealWordInterval = setInterval(function () {
                 revealAnimationDelay(cellIndex);
@@ -597,4 +598,5 @@ function keyDownHandler(event){
         console.log("enter");
         enterWord();
     }
+    console.log(event.keyCode);
 }

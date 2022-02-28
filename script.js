@@ -13,7 +13,6 @@ var wordlistToCheckFrom = possibleWords;
 var diff;
 var infoOpen = false;
 var enterReady = false;
-
 var startDateTime = new Date(2022,1,23,23,59,59,0);
 var startStamp = startDateTime.getTime();
 var newDate = new Date();
@@ -32,6 +31,7 @@ var thisCharacter;
 var firstTime;
 
 $(document).ready(function(){
+    //localStorage.clear();
     $("#langSwitch").click(switchLanguage);
     $("#openInfo").click(openInfo);
     $("#closeInfo").click(closeInfo);
@@ -79,16 +79,8 @@ $(document).ready(function(){
         currentCharacter = wordLength * (currentRow-1);
     }
     
-    for (var i = 0; i < 30; i++) {
-        if ($("#langSwitch").val() == "en") {
-            if(localStorage.getItem("cellInfoEn" + i)) {
-                console.log(localStorage.getItem("cellInfoEn" + i));
-                cell[i].classList.add(localStorage.getItem("cellInfoEn" + i));
-            }
-            if(localStorage.getItem("cellCharEn" + i)) {
-                cell[i].innerHTML = localStorage.getItem("cellCharEn" + i);
-            }
-        }
+    for (var i = 29; i >= 0; i--) {
+        
         if ($("#langSwitch").val() == "sv") {
             if(localStorage.getItem("cellInfoSv" + i)) {
                 console.log(localStorage.getItem("cellInfoSv" + i));
@@ -96,9 +88,19 @@ $(document).ready(function(){
             }
             if(localStorage.getItem("cellCharSv" + i)) {
                 cell[i].innerHTML = localStorage.getItem("cellCharSv" + i);
+                document.getElementById(cell[i].innerHTML).classList.add(localStorage.getItem("cellInfoSv" + i));
             }
         }
-        
+        if ($("#langSwitch").val() == "en") {
+            if(localStorage.getItem("cellInfoEn" + i)) {
+                console.log(localStorage.getItem("cellInfoEn" + i));
+                cell[i].classList.add(localStorage.getItem("cellInfoEn" + i));
+            }
+            if(localStorage.getItem("cellCharEn" + i)) {
+                cell[i].innerHTML = localStorage.getItem("cellCharEn" + i);
+                document.getElementById(cell[i].innerHTML).classList.add(localStorage.getItem("cellInfoEn" + i));
+            }
+        }
     }
     $(".correct").css("backgroundColor", correctColor);
     $(".correct").css("border", "solid " + correctColor + " 2px");
@@ -408,6 +410,7 @@ function switchLanguage() {
                 }
                 if(localStorage.getItem("cellCharEn" + i)) {
                     cell[i].innerHTML = localStorage.getItem("cellCharEn" + i);
+                    document.getElementById(cell[i].innerHTML).classList.add(localStorage.getItem("cellInfoEn" + i));
                 }
             }
             if ($("#langSwitch").val() == "sv") {
@@ -417,6 +420,7 @@ function switchLanguage() {
                 }
                 if(localStorage.getItem("cellCharSv" + i)) {
                     cell[i].innerHTML = localStorage.getItem("cellCharSv" + i);
+                    document.getElementById(cell[i].innerHTML).classList.add(localStorage.getItem("cellInfoSv" + i));
                 }
             }
         }
@@ -464,13 +468,13 @@ function deleteCharacter() {
         cell[currentCharacter].style.border = "solid #333 2px";
     }
 }
+
 function convertToLowerCase(word) {
     for (var u = 0; u < wordLength; u++) {
         word += cell[u + wordLength * (currentRow-1)].innerHTML.toLowerCase();
     }
     return word;
 }
-
 
 function goThroughWord(i) {
     
@@ -550,7 +554,6 @@ function goThroughWord(i) {
     
 }
 
-
 function revealAnimationDelay(i){
     
     if (i < 5) {
@@ -587,6 +590,7 @@ function enterWord() {
     }
     
 }
+
 function compareWords() {
     guessCompared = ["wrong", "wrong", "wrong", "wrong", "wrong"];
 
@@ -602,7 +606,6 @@ function compareWords() {
     }
     console.log(guessCompared);
 }
-
 
 function checkResult(correctCharacters) {
     if (correctCharacters == 5) {

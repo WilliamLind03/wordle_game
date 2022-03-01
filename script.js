@@ -85,7 +85,6 @@ $(document).ready(function(){
         
         if ($("#langSwitch").val() == "sv") {
             if(localStorage.getItem("cellInfoSv" + i)) {
-                console.log(localStorage.getItem("cellInfoSv" + i));
                 cell[i].classList.add(localStorage.getItem("cellInfoSv" + i));
             }
             if(localStorage.getItem("cellCharSv" + i)) {
@@ -95,7 +94,6 @@ $(document).ready(function(){
         }
         if ($("#langSwitch").val() == "en") {
             if(localStorage.getItem("cellInfoEn" + i)) {
-                console.log(localStorage.getItem("cellInfoEn" + i));
                 cell[i].classList.add(localStorage.getItem("cellInfoEn" + i));
             }
             if(localStorage.getItem("cellCharEn" + i)) {
@@ -110,20 +108,17 @@ $(document).ready(function(){
     $(".almostCorrect").css("border", "solid " + almostCorrectColor + " 2px");
     $(".wrong").css("backgroundColor", "#333");
     $(".wrong").css("border", "solid #333 2px");
-    console.log(localStorage);
     revealInterval = setInterval(reveal, 30);
 });
 var bla = 0;
 function reveal() {
     cell[bla].classList.add("revealAnim");
-    console.log(cell[bla].classList);
     bla++;
     if (bla >= 30) {
         clearInterval(revealInterval)
         setTimeout(function () {
             for (var i = 0; i < 30; i++) {
                 cell[i].classList.remove("revealAnim");
-                console.log(cell[i].classList);
             } 
             enterReady = true;
         }, 1000);
@@ -136,7 +131,6 @@ function reveal() {
 function setCorrectColor() {
     correctColor = document.getElementById("colors1").value;
     localStorage.setItem("correctColor", correctColor);
-    console.log(correctColor);
     $(".correct").css("backgroundColor", correctColor);
     $(".correct").css("border", "solid " + correctColor + " 2px");
 }
@@ -144,7 +138,6 @@ function setCorrectColor() {
 function setAlmostCorrectColor() {
     almostCorrectColor = document.getElementById("colors2").value;
     localStorage.setItem("almostCorrectColor", almostCorrectColor);
-    console.log(almostCorrectColor);
     $(".almostCorrect").css("backgroundColor", almostCorrectColor);
     $(".almostCorrect").css("border", "solid " + almostCorrectColor + " 2px");
 }
@@ -160,7 +153,6 @@ function openInfo() {
 }
 
 function closeInfo() {
-    console.log("stäng");
     if (infoOpen == true) {
         $("#info").css("display", "none");
         infoOpen = false;
@@ -212,7 +204,6 @@ function clearBoard() {
         cell[i].style.background = "none";
         cell[i].style.border = "solid #333 2px";
         cell[i].innerHTML = "";
-        console.log(cell[i].classList);
         // Reset game board
         $('td').css("backgroundColor", "");
         $('td').html("");
@@ -237,10 +228,8 @@ function share() {
     // Shares string
     var text = shareContent;
     if (navigator.share) {
-        console.log("share");
         navigator.share({text: text});
     } else { // Copies string if it cant share
-        console.log("copy");
         var shareElement = document.createElement("textarea");
         document.body.appendChild(shareElement);
         shareElement.value = shareContent;
@@ -294,9 +283,6 @@ function reset() {
         key[i].classList.remove("wrong");
         key[i].style.border = "none";
     }
-    console.log(currentRow);
-    console.log(currentCharacter);
-    console.log(correctGuess);
 }
 
 function getResultString() {
@@ -407,7 +393,6 @@ function switchLanguage() {
             
             if ($("#langSwitch").val() == "en") {
                 if(localStorage.getItem("cellInfoEn" + i)) {
-                    console.log(localStorage.getItem("cellInfoEn" + i));
                     cell[i].classList.add(localStorage.getItem("cellInfoEn" + i));
                 }
                 if(localStorage.getItem("cellCharEn" + i)) {
@@ -417,7 +402,6 @@ function switchLanguage() {
             }
             if ($("#langSwitch").val() == "sv") {
                 if(localStorage.getItem("cellInfoSv" + i)) {
-                    console.log(localStorage.getItem("cellInfoSv" + i));
                     cell[i].classList.add(localStorage.getItem("cellInfoSv" + i));
                 }
                 if(localStorage.getItem("cellCharSv" + i)) {
@@ -449,14 +433,12 @@ function switchLanguage() {
             $("#share").css("display", "none");
             $("#copy").css("display", "none");
         }
-        console.log("korrekt gissning " + correctGuess);
         localStorage.setItem("language", $("#langSwitch").val())
     }
 }
 
 function addCharacter(character) {
     if (currentCharacter < wordLength*currentRow && currentCharacter < 30 && !correctGuess) {
-        console.log("added character!");
         cell[currentCharacter].innerHTML = character;
         cell[currentCharacter].style.border = "solid #777 2px";
         currentCharacter++;
@@ -544,16 +526,13 @@ function goThroughWord(i) {
             }
             enterReady = true;
             checkResult(correctCharacters);
-            console.log(correctCharacters + " korrekta");
             for (var i = 0; i < 30; i++) {
                 if (cell[i].classList.contains("revealAnim")) {
                     cell[i].classList.remove("revealAnim");
                 }
             }
         }, 400);
-        
     }
-    
 }
 
 function revealAnimationDelay(i){
@@ -573,7 +552,6 @@ function enterWord() {
         
         guessedWord = "";
         guessedWord = convertToLowerCase(guessedWord);
-        //console.log(guessedWord);
         cellIndex = 0;
         if (wordlistToCheckFrom.includes(guessedWord)) {
             compareWords();
@@ -604,7 +582,6 @@ function compareWords() {
             guessCompared[guessedWord.indexOf(correctWord[i])] = "almostCorrect";
         }
     }
-    console.log(guessCompared);
 }
 
 function checkResult(correctCharacters) {
@@ -613,7 +590,6 @@ function checkResult(correctCharacters) {
         if ($("#langSwitch").val() == "en") {
             localStorage.setItem("correctGuessEn", correctGuess)
         } else if ($("#langSwitch").val() == "sv") {
-            console.log("Gissade rätt på svenska!");
             localStorage.setItem("correctGuessSv", correctGuess)
         }
         
@@ -689,7 +665,6 @@ function setCharAt(str,index,chr) {
 function keyDownHandler(event){
     if (event.keyCode == Q){
         addCharacter("Q");
-        console.log("Q");
     }
     if (event.keyCode == W){
         addCharacter("W");
@@ -781,8 +756,7 @@ function keyDownHandler(event){
     }
     
     if (event.keyCode == ENTER){
-        console.log("enter");
+
         enterWord();
     }
-    console.log(event.keyCode);
 }

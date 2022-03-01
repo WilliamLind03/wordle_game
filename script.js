@@ -90,6 +90,10 @@ $(document).ready(function(){
             if(localStorage.getItem("cellCharSv" + i)) {
                 cell[i].innerHTML = localStorage.getItem("cellCharSv" + i);
                 document.getElementById(cell[i].innerHTML).classList.add(localStorage.getItem("cellInfoSv" + i));
+                
+                if (document.getElementById(cell[i].innerHTML).classList.contains("almostCorrect") && document.getElementById(cell[i].innerHTML).classList.contains("correct")) {
+                    document.getElementById(cell[i].innerHTML).classList.remove("almostCorrect");
+                }
             }
         }
         if ($("#langSwitch").val() == "en") {
@@ -99,6 +103,10 @@ $(document).ready(function(){
             if(localStorage.getItem("cellCharEn" + i)) {
                 cell[i].innerHTML = localStorage.getItem("cellCharEn" + i);
                 document.getElementById(cell[i].innerHTML).classList.add(localStorage.getItem("cellInfoEn" + i));
+                
+                if (document.getElementById(cell[i].innerHTML).classList.contains("almostCorrect") && document.getElementById(cell[i].innerHTML).classList.contains("correct")) {
+                    document.getElementById(cell[i].innerHTML).classList.remove("almostCorrect");
+                }
             }
         }
     }
@@ -398,6 +406,10 @@ function switchLanguage() {
                 if(localStorage.getItem("cellCharEn" + i)) {
                     cell[i].innerHTML = localStorage.getItem("cellCharEn" + i);
                     document.getElementById(cell[i].innerHTML).classList.add(localStorage.getItem("cellInfoEn" + i));
+                    
+                    if (document.getElementById(cell[i].innerHTML).classList.contains("almostCorrect") && document.getElementById(cell[i].innerHTML).classList.contains("correct")) {
+                        document.getElementById(cell[i].innerHTML).classList.remove("almostCorrect");
+                    }
                 }
             }
             if ($("#langSwitch").val() == "sv") {
@@ -407,6 +419,10 @@ function switchLanguage() {
                 if(localStorage.getItem("cellCharSv" + i)) {
                     cell[i].innerHTML = localStorage.getItem("cellCharSv" + i);
                     document.getElementById(cell[i].innerHTML).classList.add(localStorage.getItem("cellInfoSv" + i));
+                    
+                    if (document.getElementById(cell[i].innerHTML).classList.contains("almostCorrect") && document.getElementById(cell[i].innerHTML).classList.contains("correct")) {
+                        document.getElementById(cell[i].innerHTML).classList.remove("almostCorrect");
+                    }
                 }
             }
         }

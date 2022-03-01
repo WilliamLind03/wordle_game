@@ -31,7 +31,7 @@ var thisCharacter;
 var firstTime;
 
 $(document).ready(function(){
-    //localStorage.clear();
+    localStorage.clear();
     $("#langSwitch").click(switchLanguage);
     $("#openInfo").click(openInfo);
     $("#closeInfo").click(closeInfo);
@@ -42,6 +42,8 @@ $(document).ready(function(){
     $(document).keydown(keyDownHandler);
     updateClock();
     timer = setInterval(updateClock, 1000);
+    
+    
     
     // Refreshes first time user opens website
     if (!localStorage.getItem("day") || localStorage.getItem("day") < Math.floor(diff/86400)){
@@ -600,8 +602,6 @@ function compareWords() {
         } 
         else if (guessedWord.indexOf(correctWord[i]) >= 0) {
             guessCompared[guessedWord.indexOf(correctWord[i])] = "almostCorrect";
-        } else {
-            guessCompared[i] = "wrong";
         }
     }
     console.log(guessCompared);

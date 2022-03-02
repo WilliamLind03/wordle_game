@@ -497,7 +497,10 @@ function goThroughWord(i) {
     // Checks if Character is wrong
     else if (guessCompared[i] == "wrong") {
         cell[i + wordLength * (currentRow-1)].classList.add("wrong");
-        document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.add("wrong")
+        if (document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList == 0) {
+            document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.add("wrong");
+        }
+        
         $(".wrong").css("backgroundColor", "#333");
         $(".wrong").css("border", "solid #333 2px");
     }

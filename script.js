@@ -61,6 +61,17 @@ $(document).ready(function(){
         $("#share").css("display", "block");
         $("#copy").css("display", "block");
     }
+    if ($("#langSwitch").val() == "en" && localStorage.getItem("enCurrentRow", currentRow)) {
+        if(localStorage.getItem("enCurrentRow") == 7) {
+            $("#share").css("display", "block");
+            $("#copy").css("display", "block");
+        }
+    } else if ($("#langSwitch").val() == "sv" && localStorage.getItem("svCurrentRow", currentRow)){
+        if(localStorage.getItem("svCurrentRow") == 7) {
+            $("#share").css("display", "block");
+            $("#copy").css("display", "block");
+        }
+    }
     
     if (localStorage.getItem("correctColor")) {
         correctColor = localStorage.getItem("correctColor");
@@ -490,7 +501,9 @@ function goThroughWord(i) {
     // Checks if Character is almost correct
     else if (guessCompared[i] == "almostCorrect") {
         cell[i + wordLength * (currentRow-1)].classList.add("almostCorrect");
-        document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.add("almostCorrect")
+        if (!document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.contains("correct")) {
+            document.getElementById(cell[i + wordLength * (currentRow-1)].innerHTML).classList.add("almostCorrect");
+        }
         $(".almostCorrect").css("backgroundColor", almostCorrectColor);
         $(".almostCorrect").css("border", "solid " + almostCorrectColor + " 2px");
     } 

@@ -169,6 +169,23 @@ main {
     color: white;
     font-family: monospace;
 }
+#info #stats #statsTable{
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    
+}
+#info #stats #statsTable tr:first-of-type{
+    font-size: 25px;
+}
+#info #stats #statsTable tr:last-of-type{
+    font-size: 15px;
+}
+#info #stats #statsTable td{
+    width: 25%;
+}
 
 #info #copy {
     display: none;

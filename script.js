@@ -30,6 +30,12 @@ var enBoardData = [];
 var thisCharacter;
 var firstTime;
 
+var timesPlayed = 0;
+var currentStreak = 0;
+var maxStreak = 0;
+var winrate = 0;
+var timesWon = 0;
+
 $(document).ready(function(){
     //localStorage.clear();
     $("#langSwitch").click(switchLanguage);
@@ -42,8 +48,6 @@ $(document).ready(function(){
     $(document).keydown(keyDownHandler);
     updateClock();
     timer = setInterval(updateClock, 1000);
-    
-    
     
     // Refreshes first time user opens website
     if (!localStorage.getItem("day") || localStorage.getItem("day") < Math.floor(diff/86400)){
@@ -128,7 +132,26 @@ $(document).ready(function(){
     $(".wrong").css("backgroundColor", "#333");
     $(".wrong").css("border", "solid #333 2px");
     revealInterval = setInterval(reveal, 30);
+    setStats();
 });
+
+function setStats() {
+    if (localStorage.getItem("timesPlayed")) {
+        $("#timesPlayed").html(timesPlayed);
+    }
+    if (localStorage.getItem("winrate")) {
+        $("#winrate").html(winrate);
+    }
+    if (localStorage.getItem("currentStreak")) {
+        $("#winStreak").html(currentStreak);
+    }
+    if (localStorage.getItem("maxStreak")) {
+        $("#bestStreak").html(maxStreak);
+    }
+    
+}
+
+
 var bla = 0;
 function reveal() {
     cell[bla].classList.add("revealAnim");
@@ -280,9 +303,9 @@ function copy() {
 
 function reset() {
     // Reset game board
-    $('td').css("backgroundColor", "");
-    $('td').html("");
-    $('td').css("border", "solid #333 2px");
+    $('#table td').css("backgroundColor", "");
+    $('#table td').html("");
+    $('#table td').css("border", "solid #333 2px");
     // Reset keyboard
     $('#keyboard button').css("backgroundColor", "#555");
     // Reset values
@@ -654,22 +677,45 @@ function checkResult(correctCharacters) {
                 popup("Omöjligt!");
             }
         }
+        timesPlayed++;
+        timesWon++;
+        currentStreak++;
+        localStorage.setItem("timesPlayed", timesPlayed);
+        localStorage.setItem("currentStreak", currentStreak);
+        if (currentStreak > maxStreak) {
+            maxStreak = currentStreak;
+            localStorage.setItem("maxStreak", maxStreak);
+        }
+        if(timesPlayed > 0) {
+            winrate = timesWon/timesPlayed*100;
+            localStorage.setItem("winrate", winrate);
+        }
+        
         $("#share").css("display", "block");
         $("#copy").css("display", "block");
         setTimeout(function(){
             $("#info").css("display", "block");
             infoOpen = true;
         }, 1000);
+        setStats();
     }
     if  (correctCharacters != 5 && currentRow == 7) {
         $("#share").css("display", "block");
         $("#copy").css("display", "block");
         $("h1").html(correctWord);
         popup(correctWord);
+        timesPlayed++;
+        currentStreak = 0;
+        if(timesPlayed > 0) {
+            winrate = timesWon/timesPlayed*100;
+            localStorage.setItem("winrate", winrate);
+        }
+        localStorage.setItem("currentStreak", currentStreak);
         setTimeout(function(){
             $("#info").css("display", "block");
             infoOpen = true;
         }, 1000);
+        setStats();
     }
     correctCharacters = 0;
 }

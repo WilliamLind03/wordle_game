@@ -235,6 +235,8 @@ function updateClock() {
     if (diff % 86400 == 0) {
         clearBoard();
         localStorage.clear();
+        localStorage.setItem("correctColor", correctColor);
+        localStorage.setItem("almostCorrectColor", almostCorrectColor);
     }
 }
 

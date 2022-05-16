@@ -178,7 +178,7 @@ main {
     
 }
 #info #stats #statsTable tr:first-of-type{
-    font-size: 25px;
+    font-size: 40px;
 }
 #info #stats #statsTable tr:last-of-type{
     font-size: 15px;
@@ -309,6 +309,12 @@ main {
         width: 30px;
         height: 30px;
         font-size: 25px;
+    }
+    #info #stats #statsTable tr:first-of-type{
+    font-size: 30px;
+    }
+    #info #stats #statsTable tr:last-of-type{
+        font-size: 10px;
     }
     
 }

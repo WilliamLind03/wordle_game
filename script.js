@@ -49,10 +49,30 @@ $(document).ready(function(){
     updateClock();
     timer = setInterval(updateClock, 1000);
     
+    if (localStorage.getItem("timesPlayed")) {
+        timesPlayed = localStorage.getItem("timesPlayed");
+        currentStreak = localStorage.getItem("currentStreak");
+        maxStreak = localStorage.getItem("maxStreak");
+        timesWon = localStorage.getItem("timesWon");
+    }
+    if (localStorage.getItem("winrate")) {
+        winrate = localStorage.getItem("winrate");
+    }
+    
     // Refreshes first time user opens website
     if (!localStorage.getItem("day") || localStorage.getItem("day") < Math.floor(diff/86400)){
+        
+        
         localStorage.clear();
+
     }
+    localStorage.setItem("correctColor", correctColor);
+    localStorage.setItem("almostCorrectColor", almostCorrectColor);
+    localStorage.setItem("timesPlayed", timesPlayed);
+    localStorage.setItem("winrate", winrate);
+    localStorage.setItem("currentStreak", currentStreak);
+    localStorage.setItem("maxStreak", maxStreak);
+    localStorage.setItem("timesWon", timesWon);
     localStorage.setItem("day", Math.floor(diff/86400));
     
     if (localStorage.getItem("correctGuessEn") && $("#langSwitch").val() == "en") {
@@ -234,9 +254,22 @@ function updateClock() {
     }
     if (diff % 86400 == 0) {
         clearBoard();
+        timesPlayed = localStorage.getItem("timesPlayed");
+        currentStreak = localStorage.getItem("winrate");
+        maxStreak = localStorage.getItem("currentStreak");
+        winrate = localStorage.getItem("maxStreak");
+        timesWon = localStorage.getItem("timesWon");
         localStorage.clear();
         localStorage.setItem("correctColor", correctColor);
         localStorage.setItem("almostCorrectColor", almostCorrectColor);
+        timesPlayed = localStorage.setItem("timesPlayed", timesPlayed);
+        currentStreak = localStorage.setItem("winrate", winrate);
+        maxStreak = localStorage.setItem("currentStreak", currentStreak);
+        winrate = localStorage.setItem("maxStreak", maxStreak);
+        timesWon = localStorage.setItem("timesWon", timesWon);
+        localStorage.setItem("correctColor", correctColor);
+        localStorage.setItem("almostCorrectColor", almostCorrectColor);
+        setStats();
     }
 }
 
